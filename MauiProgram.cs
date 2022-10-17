@@ -1,11 +1,16 @@
-﻿namespace MauiCalendarApp;
+﻿using MauiCalendarApp.Interfaces;
+using MauiCalendarApp.Services;
+using MauiCalendarApp.View;
+using MauiCalendarApp.ViewModel;
+
+namespace MauiCalendarApp;
 
 public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
-		builder
+        builder
 			.UseMauiApp<App>()
 			.ConfigureFonts(fonts =>
 			{
@@ -13,6 +18,10 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-		return builder.Build();
+		builder.Services.AddSingleton<ICalendarApiService, CalendarApiService>();
+        builder.Services.AddSingleton<MainPageViewModel>();
+        builder.Services.AddSingleton<MainPage>();
+
+        return builder.Build();
 	}
 }
