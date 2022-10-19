@@ -1,6 +1,5 @@
 ﻿using MauiCalendarApp.Interfaces;
 using MvvmHelpers;
-using System.Collections.ObjectModel;
 
 namespace MauiCalendarApp.ViewModel;
 public partial class MainPageViewModel : BaseViewModel
