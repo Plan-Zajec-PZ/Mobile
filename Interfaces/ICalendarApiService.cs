@@ -1,5 +1,7 @@
-﻿namespace MauiCalendarApp.Interfaces;
+﻿using MauiCalendarApp.Model;
+
+namespace MauiCalendarApp.Interfaces;
 public interface ICalendarApiService
 {
-    public List<string> GetDepartments();
+    public List<Department> GetDepartments();
 }

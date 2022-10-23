@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewmodel="clr-namespace:MauiCalendarApp.ViewModel"
+    xmlns:models="clr-namespace:MauiCalendarApp.Model"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     ios:Page.UseSafeArea="True"
     Title="HARMONOGRAM COLEGIUM WITELONA"
@@ -13,14 +14,17 @@
                 SelectionMode="None"
                 Margin="0,40,0,0">
         <CollectionView.ItemTemplate>
-            <DataTemplate>
+            <DataTemplate x:DataType="models:Department">
                 <Frame BorderColor="Transparent"
-                       BackgroundColor="#dcdce4"
+                       BackgroundColor="{Binding Color}"
                        CornerRadius="0"
                        Margin="0,0,0,0">
-                    <Label Text="{Binding .}"
+                    <Label Text="{Binding Name}"
                         FontSize="20"
                         Grid.Row="2"/>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer CommandParameter="{Binding .}" Command="{}"/>
+                    </Frame.GestureRecognizers>
                 </Frame>
             </DataTemplate>
         </CollectionView.ItemTemplate>
