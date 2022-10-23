@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
+using MauiCalendarApp.View;
 using MvvmHelpers;
 
 namespace MauiCalendarApp.ViewModel;
@@ -13,13 +14,28 @@ public partial class MainPageViewModel : BaseViewModel
 	public MainPageViewModel(ICalendarApiService calendarApiService)
 	{
 		this.calendarApiService = calendarApiService;
-
-		Departments.AddRange(calendarApiService.GetDepartments());
 	}
 
 	[RelayCommand]
 	public void SelectDepartment(Department department)
 	{
-		Departments.First(d => d.Name == department.Name).LastSelected = true;
+		Helpers.Settings.LastSelectedDepartmentName = department.Name;
+
+		Shell.Current.GoToAsync(nameof(SubjectPage));
 	}
+
+	public void LoadDepartments()
+	{
+		var departments = calendarApiService.GetDepartments();
+		var departmentName = Helpers.Settings.LastSelectedDepartmentName;
+
+		if (departmentName != null)
+		{
+			var department = departments.Find(d => d.Name == departmentName);
+			department.LastSelected = true;
+        }	
+
+		Departments.Clear();
+        Departments.AddRange(departments);
+    }
 }

@@ -19,8 +19,12 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddSingleton<ICalendarApiService, CalendarApiService>();
+
         builder.Services.AddSingleton<MainPageViewModel>();
         builder.Services.AddSingleton<MainPage>();
+
+        builder.Services.AddSingleton<SubjectPageViewModel>();
+        builder.Services.AddSingleton<SubjectPage>();
 
         return builder.Build();
 	}
