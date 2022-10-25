@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using MauiCalendarApp.Helpers;
 using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
 using MauiCalendarApp.View;
@@ -19,17 +20,21 @@ public partial class MainPageViewModel : BaseViewModel
 	[RelayCommand]
 	public void SelectDepartment(Department department)
 	{
-		Helpers.Settings.LastSelectedDepartmentName = department.Name;
+		Settings.LastSelectedDepartmentName = department.Name;
 
-		Shell.Current.GoToAsync(nameof(SubjectPage));
+		Shell.Current.GoToAsync(nameof(SubjectPage), true, new Dictionary<string, object>
+		{
+			{"Department", department }
+		});
 	}
 
 	public void LoadDepartments()
 	{
 		var departments = calendarApiService.GetDepartments();
-		var departmentName = Helpers.Settings.LastSelectedDepartmentName;
+		string departmentName = Settings.LastSelectedDepartmentName;
 
-		if (departmentName != null)
+
+        if (departmentName != null)
 		{
 			var department = departments.Find(d => d.Name == departmentName);
 			department.LastSelected = true;

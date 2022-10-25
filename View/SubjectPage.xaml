@@ -4,11 +4,30 @@
              x:Class="MauiCalendarApp.View.SubjectPage"
              xmlns:viewmodel="clr-namespace:MauiCalendarApp.ViewModel"
              x:DataType="viewmodel:SubjectPageViewModel"
-             Title="Subjects">
-    <VerticalStackLayout>
+             Title="HARMONOGRAM COLEGIUM WITELONA">
+    <StackLayout>
         <Label 
-            Text="Welcome to .NET MAUI!"
+            Text="{Binding Department.Name}"
             VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+            HorizontalOptions="Start" />
+        <VerticalStackLayout>
+            <CollectionView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyViewTemplate>
+                    <DataTemplate>
+                        
+                    </DataTemplate>
+                </CollectionView.EmptyViewTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+        <VerticalStackLayout>
+            <CollectionView>
+
+            </CollectionView>
+        </VerticalStackLayout>
+    </StackLayout>
 </ContentPage>
