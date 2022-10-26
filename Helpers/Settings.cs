@@ -1,4 +1,4 @@
-﻿using Javax.Security.Auth;
+﻿using MauiCalendarApp.Model;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using System.Text.Json;

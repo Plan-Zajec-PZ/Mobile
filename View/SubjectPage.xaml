@@ -3,31 +3,108 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiCalendarApp.View.SubjectPage"
              xmlns:viewmodel="clr-namespace:MauiCalendarApp.ViewModel"
+             xmlns:models="clr-namespace:MauiCalendarApp.Model"
              x:DataType="viewmodel:SubjectPageViewModel"
              Title="HARMONOGRAM COLEGIUM WITELONA">
-    <StackLayout>
-        <Label 
-            Text="{Binding Department.Name}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Start" />
-        <VerticalStackLayout>
-            <CollectionView>
+    <CollectionView
+                ItemsSource="{Binding Favourite}">
+        <CollectionView.Header>
+            <StackLayout>
+                <Label
+                    Text="{Binding Department.Name}"
+                    FontSize="20"
+                    Margin="20"
+                    FontAttributes="Bold"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Start"/>
+                <Frame
+                    CornerRadius="2"
+                    Margin="20,0,30,0"
+                    Padding="10,0,0,0">
+                    <Entry
+                        Placeholder="Wyszukaj..."
+                        FontSize="Body"/>
+                </Frame>
+                <Label
+                    Text="Ulubione"
+                    FontSize="Header"
+                    Margin="40,10,20,0"
+                    FontAttributes="Bold"/>
+            </StackLayout>
+        </CollectionView.Header>
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="models:Subject">
+                <Frame
+                    CornerRadius="5"
+                    BorderColor="Transparent"
+                    BackgroundColor="#e8e7ed"
+                    Padding="10"
+                    Margin="20,10,20,0">
+                    <Grid
+                        RowDefinitions="*,Auto">
+                        <Image
+                            Aspect="AspectFill"
+                            Source="goldstar.png"
+                            WidthRequest="10"
+                            HeightRequest="10"
+                            Grid.Column="0"
+                            Grid.Row="0"/>
+                        <Label
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Text="{Binding Name}"/>
+                        <Label
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Text="{Binding Shorthand}"
+                            TextColor="#81b7db"
+                            HorizontalTextAlignment="End"/>
+                    </Grid>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        <CollectionView.Footer>
+            <CollectionView
+                ItemsSource="{Binding Harmonograms}">
+                <CollectionView.Header>
+                    <Label
+                    Text="Harmonogramy"
+                    FontSize="Header"
+                    Margin="40,10,20,0"
+                    FontAttributes="Bold"/>
+                </CollectionView.Header>
                 <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        
+                    <DataTemplate x:DataType="models:Subject">
+                        <Frame
+                            CornerRadius="5"
+                            BorderColor="Transparent"
+                            BackgroundColor="#e8e7ed"
+                            Padding="10"
+                            Margin="20,10,20,0">
+                            <Grid
+                                RowDefinitions="*,Auto">
+                                <Image
+                                    Aspect="AspectFill"
+                                    Source="emptystar.png"
+                                    WidthRequest="10"
+                                    HeightRequest="10"
+                                    Grid.Column="0"
+                                    Grid.Row="0"/>
+                                <Label
+                                    Grid.Column="1"
+                                    Grid.Row="0"
+                                    Text="{Binding Name}"/>
+                                <Label
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Text="{Binding Shorthand}"
+                                    TextColor="#81b7db"
+                                    HorizontalTextAlignment="End"/>
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-                <CollectionView.EmptyViewTemplate>
-                    <DataTemplate>
-                        
-                    </DataTemplate>
-                </CollectionView.EmptyViewTemplate>
             </CollectionView>
-        </VerticalStackLayout>
-        <VerticalStackLayout>
-            <CollectionView>
-
-            </CollectionView>
-        </VerticalStackLayout>
-    </StackLayout>
+        </CollectionView.Footer>
+    </CollectionView>
 </ContentPage>
