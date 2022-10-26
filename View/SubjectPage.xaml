@@ -4,6 +4,7 @@
              x:Class="MauiCalendarApp.View.SubjectPage"
              xmlns:viewmodel="clr-namespace:MauiCalendarApp.ViewModel"
              xmlns:models="clr-namespace:MauiCalendarApp.Model"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="viewmodel:SubjectPageViewModel"
              Title="HARMONOGRAM COLEGIUM WITELONA">
     <CollectionView
@@ -23,7 +24,13 @@
                     Padding="10,0,0,0">
                     <Entry
                         Placeholder="Wyszukaj..."
-                        FontSize="Body"/>
+                        FontSize="Body"
+                        Text="{Binding SearchPhrase}"
+                        Keyboard="Default">
+                        <Entry.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="Completed" Command="{Binding FilterHarmonogramsCommand}"/>
+                        </Entry.Behaviors>
+                    </Entry>
                 </Frame>
                 <Label
                     Text="Ulubione"
@@ -35,20 +42,35 @@
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:Subject">
                 <Frame
-                    CornerRadius="5"
+                    CornerRadius="2"
                     BorderColor="Transparent"
                     BackgroundColor="#e8e7ed"
                     Padding="10"
                     Margin="20,10,20,0">
-                    <Grid
-                        RowDefinitions="*,Auto">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+                                Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
                         <Image
+                            Margin="0,0,10,0"
                             Aspect="AspectFill"
+                            HorizontalOptions="Start"
                             Source="goldstar.png"
                             WidthRequest="10"
                             HeightRequest="10"
                             Grid.Column="0"
-                            Grid.Row="0"/>
+                            Grid.Row="0">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:SubjectPageViewModel}}, Path=RemoveFromFavouriteCommand}"
+                                              CommandParameter="{Binding .}"/>
+                            </Image.GestureRecognizers>
+                        </Image>
                         <Label
                             Grid.Column="1"
                             Grid.Row="0"
@@ -76,20 +98,35 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Subject">
                         <Frame
-                            CornerRadius="5"
+                            CornerRadius="2"
                             BorderColor="Transparent"
                             BackgroundColor="#e8e7ed"
                             Padding="10"
                             Margin="20,10,20,0">
-                            <Grid
-                                RowDefinitions="*,Auto">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
                                 <Image
+                                    Margin="0,0,10,0"
                                     Aspect="AspectFill"
                                     Source="emptystar.png"
+                                    HorizontalOptions="Start"
                                     WidthRequest="10"
                                     HeightRequest="10"
                                     Grid.Column="0"
-                                    Grid.Row="0"/>
+                                    Grid.Row="0">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:SubjectPageViewModel}}, Path=AddToFavouriteCommand}"
+                                              CommandParameter="{Binding .}"/>
+                                    </Image.GestureRecognizers>
+                                </Image>
                                 <Label
                                     Grid.Column="1"
                                     Grid.Row="0"

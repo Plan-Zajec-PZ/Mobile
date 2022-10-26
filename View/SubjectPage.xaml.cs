@@ -4,9 +4,18 @@ namespace MauiCalendarApp.View;
 
 public partial class SubjectPage : ContentPage
 {
-	public SubjectPage(SubjectPageViewModel viewModel)
+    private readonly SubjectPageViewModel viewModel;
+
+    public SubjectPage(SubjectPageViewModel viewModel)
 	{
 		InitializeComponent();
 		BindingContext = viewModel;
+        this.viewModel = viewModel;
 	}
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        viewModel.LoadSubjects();
+    }
 }

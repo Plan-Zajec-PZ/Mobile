@@ -25,7 +25,7 @@ public static class Settings
     {
         get
         {
-            var rawData = AppSettings.GetValueOrDefault(nameof(FavouriteSubjects), string.Empty);
+            var rawData = AppSettings.GetValueOrDefault(nameof(FavouriteSubjects), JsonSerializer.Serialize(new List<Subject>()));
             return JsonSerializer.Deserialize<List<Subject>>(rawData);
         }
         set
