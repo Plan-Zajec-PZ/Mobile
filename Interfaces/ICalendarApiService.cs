@@ -3,6 +3,7 @@
 namespace MauiCalendarApp.Interfaces;
 public interface ICalendarApiService
 {
-    public List<Department> GetDepartments();
-    List<Subject> GetSubjects(int departmentId);
+    List<Department> GetDepartments();
+    List<Course> GetSubjects(int departmentId);
+    List<Group> GetLessons();
 }
