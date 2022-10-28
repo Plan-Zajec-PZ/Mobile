@@ -1,4 +1,5 @@
-﻿using MauiCalendarApp.Interfaces;
+﻿using CommunityToolkit.Maui;
+using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Services;
 using MauiCalendarApp.View;
 using MauiCalendarApp.ViewModel;
@@ -16,15 +17,19 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+			})
+			.UseMauiCommunityToolkit();
 
 		builder.Services.AddSingleton<ICalendarApiService, CalendarApiService>();
 
         builder.Services.AddSingleton<MainPageViewModel>();
         builder.Services.AddSingleton<MainPage>();
 
-        builder.Services.AddTransient<SubjectPageViewModel>();
-        builder.Services.AddTransient<SubjectPage>();
+        builder.Services.AddTransient<CoursesPageViewModel>();
+        builder.Services.AddTransient<CoursesPage>();
+
+        builder.Services.AddTransient<LessonsPageViewModel>();
+        builder.Services.AddTransient<LessonsPage>();
 
         return builder.Build();
 	}

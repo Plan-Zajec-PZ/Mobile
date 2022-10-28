@@ -21,12 +21,12 @@ public static class Settings
         }
     }
 
-    public static List<Subject> FavouriteSubjects
+    public static List<Course> FavouriteSubjects
     {
         get
         {
-            var rawData = AppSettings.GetValueOrDefault(nameof(FavouriteSubjects), JsonSerializer.Serialize(new List<Subject>()));
-            return JsonSerializer.Deserialize<List<Subject>>(rawData);
+            var rawData = AppSettings.GetValueOrDefault(nameof(FavouriteSubjects), JsonSerializer.Serialize(new List<Course>()));
+            return JsonSerializer.Deserialize<List<Course>>(rawData);
         }
         set
         {

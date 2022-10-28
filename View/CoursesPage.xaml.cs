@@ -2,11 +2,11 @@ using MauiCalendarApp.ViewModel;
 
 namespace MauiCalendarApp.View;
 
-public partial class SubjectPage : ContentPage
+public partial class CoursesPage : ContentPage
 {
-    private readonly SubjectPageViewModel viewModel;
+    private readonly CoursesPageViewModel viewModel;
 
-    public SubjectPage(SubjectPageViewModel viewModel)
+    public CoursesPage(CoursesPageViewModel viewModel)
 	{
 		InitializeComponent();
 		BindingContext = viewModel;
@@ -16,6 +16,6 @@ public partial class SubjectPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        viewModel.LoadSubjects();
+        viewModel.LoadCourses();
     }
 }

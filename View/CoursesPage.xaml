@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiCalendarApp.View.SubjectPage"
+             x:Class="MauiCalendarApp.View.CoursesPage"
              xmlns:viewmodel="clr-namespace:MauiCalendarApp.ViewModel"
              xmlns:models="clr-namespace:MauiCalendarApp.Model"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:DataType="viewmodel:SubjectPageViewModel"
+             x:DataType="viewmodel:CoursesPageViewModel"
              Title="HARMONOGRAM COLEGIUM WITELONA">
     <CollectionView
                 ItemsSource="{Binding Favourite}">
@@ -28,7 +28,7 @@
                         Text="{Binding SearchPhrase}"
                         Keyboard="Default">
                         <Entry.Behaviors>
-                            <toolkit:EventToCommandBehavior EventName="Completed" Command="{Binding FilterHarmonogramsCommand}"/>
+                            <toolkit:EventToCommandBehavior EventName="Completed" Command="{Binding FilterCoursesCommand}"/>
                         </Entry.Behaviors>
                     </Entry>
                 </Frame>
@@ -40,7 +40,7 @@
             </StackLayout>
         </CollectionView.Header>
         <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="models:Subject">
+            <DataTemplate x:DataType="models:Course">
                 <Frame
                     CornerRadius="2"
                     BorderColor="Transparent"
@@ -67,7 +67,7 @@
                             Grid.Column="0"
                             Grid.Row="0">
                             <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:SubjectPageViewModel}}, Path=RemoveFromFavouriteCommand}"
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:CoursesPageViewModel}}, Path=RemoveFromFavouriteCommand}"
                                               CommandParameter="{Binding .}"/>
                             </Image.GestureRecognizers>
                         </Image>
@@ -82,12 +82,16 @@
                             TextColor="#81b7db"
                             HorizontalTextAlignment="End"/>
                     </Grid>
+                    <Frame.GestureRecognizers>
+                        <SwipeGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:CoursesPageViewModel}}, Path=SelectCourseCommand}"
+                                              CommandParameter="{Binding .}"/>
+                    </Frame.GestureRecognizers>
                 </Frame>
             </DataTemplate>
         </CollectionView.ItemTemplate>
         <CollectionView.Footer>
             <CollectionView
-                ItemsSource="{Binding Harmonograms}">
+                ItemsSource="{Binding Courses}">
                 <CollectionView.Header>
                     <Label
                     Text="Harmonogramy"
@@ -96,7 +100,7 @@
                     FontAttributes="Bold"/>
                 </CollectionView.Header>
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Subject">
+                    <DataTemplate x:DataType="models:Course">
                         <Frame
                             CornerRadius="2"
                             BorderColor="Transparent"
@@ -123,7 +127,7 @@
                                     Grid.Column="0"
                                     Grid.Row="0">
                                     <Image.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:SubjectPageViewModel}}, Path=AddToFavouriteCommand}"
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:CoursesPageViewModel}}, Path=AddToFavouriteCommand}"
                                               CommandParameter="{Binding .}"/>
                                     </Image.GestureRecognizers>
                                 </Image>
@@ -138,6 +142,10 @@
                                     TextColor="#81b7db"
                                     HorizontalTextAlignment="End"/>
                             </Grid>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:CoursesPageViewModel}}, Path=SelectCourseCommand}"
+                                              CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

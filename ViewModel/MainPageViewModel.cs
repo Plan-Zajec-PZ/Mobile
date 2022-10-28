@@ -22,7 +22,7 @@ public partial class MainPageViewModel : BaseViewModel
 	{
 		Settings.LastSelectedDepartmentName = department.Name;
 
-		Shell.Current.GoToAsync(nameof(SubjectPage), true, new Dictionary<string, object>
+		Shell.Current.GoToAsync(nameof(CoursesPage), true, new Dictionary<string, object>
 		{
 			{"Department", department }
 		});

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiCalendarApp.View.LessonsPage"
+             xmlns:viewmodel="clr-namespace:MauiCalendarApp.ViewModel"
+             x:DataType="viewmodel:LessonsPageViewModel"
+             Title="HARMONOGRAM COLEGIUM WITELONA">
+    <VerticalStackLayout>
+        <Label 
+            Text="{Binding Course.Name}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>
