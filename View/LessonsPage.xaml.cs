@@ -18,4 +18,10 @@ public partial class LessonsPage : ContentPage
         base.OnAppearing();
         viewModel.LoadLessons();
     }
+
+    private void Picker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var picker = (Picker)sender;
+        viewModel.ChangeCurrentGroup((string)picker.SelectedItem);
+    }
 }
