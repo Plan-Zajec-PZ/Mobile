@@ -5,6 +5,8 @@
              x:Class="MauiCalendarApp.App">
     <Application.Resources>
         <ResourceDictionary>
+            <Color x:Key="WitelonGrey">#E8E7ED</Color>
+            <Color x:Key="WitelonDarkBlue">#180c4c</Color>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />

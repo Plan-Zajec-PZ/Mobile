@@ -167,4 +167,13 @@ public class CalendarApiService : ICalendarApiService
             }
         };
     }
+
+    public List<Legend> GetLegends()
+    {
+        return new List<Legend>
+        {
+            new Legend{ Subject = "Inf", Name = "Informatyka" },
+            new Legend{ Subject = "PzoD", Name = "Przodek kuchenny" }
+        };
+    }
 }

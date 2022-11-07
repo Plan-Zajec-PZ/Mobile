@@ -16,23 +16,30 @@ public partial class LessonsPageViewModel : BaseViewModel
     private Course course;
     [ObservableProperty]
     private string group;
-	[ObservableProperty]
-	private List<DayLesson> lessonsForGroup = new();
+	public ObservableRangeCollection<DayLesson> LessonsForGroup { get; set; }
     [ObservableProperty]
     private List<string> groups;
-    public List<Group> AllLessons;
+    [ObservableProperty]
+    private List<Legend> legends;
+    private List<Group> AllLessons;
 
     public LessonsPageViewModel(ICalendarApiService calendarApiService)
 	{
 		this.calendarApiService = calendarApiService;
-	}
+        LessonsForGroup = new();
 
-	public async void LoadLessons()
+    }
+
+	public async Task LoadLessons()
 	{
-		AllLessons = calendarApiService.GetLessons();
-		Groups = AllLessons.Select(l => l.Name).ToList();
-        Group = Groups.First();
-        LessonsForGroup = AllLessons.FirstOrDefault(g => g.Name == Group).LessonPlans;
+		if (AllLessons is null)
+        {
+            AllLessons = calendarApiService.GetLessons();
+            Groups = AllLessons.Select(l => l.Name).ToList();
+            Group = Groups.First();
+            LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Group).LessonPlans);
+            Legends = calendarApiService.GetLegends();
+        }
     }
 
     [RelayCommand]
@@ -42,9 +49,9 @@ public partial class LessonsPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public async void ChangeCurrentGroup(string group)
+    public void ChangeCurrentGroup(string group)
     {
         LessonsForGroup.Clear();
-        LessonsForGroup = AllLessons.FirstOrDefault(g => g.Name == Group).LessonPlans;
+        LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Group).LessonPlans);
     }
 }
