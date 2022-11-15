@@ -176,4 +176,11 @@ public class CalendarApiService : ICalendarApiService
             new Legend{ Subject = "PzoD", Name = "Przodek kuchenny" }
         };
     }
+
+    public List<string> GetWeeks()
+    {
+        return new (){
+            "42", "43", "44", "45"
+        };
+    }
 }

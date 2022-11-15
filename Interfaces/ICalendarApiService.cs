@@ -7,4 +7,5 @@ public interface ICalendarApiService
     List<Course> GetSubjects(int departmentId);
     List<Group> GetLessons();
     List<Legend> GetLegends();
+    List<string> GetWeeks();
 }

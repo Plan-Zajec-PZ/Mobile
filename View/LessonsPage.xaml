@@ -45,9 +45,14 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     Grid.Row="1">
-                    <DatePicker
-                        HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="Center"/>
+                    <Picker
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Title="Aktualny tydzień"
+                        HorizontalTextAlignment="Center"
+                        SelectedItem="{Binding Week}"
+                        ItemsSource="{Binding Weeks}"
+                        SelectedIndexChanged="WeekChanged"/>
                 </Frame>
                 <Frame
                     BackgroundColor="{StaticResource WitelonGrey}"
@@ -63,7 +68,7 @@
                         HorizontalTextAlignment="Center"
                         SelectedItem="{Binding Group}"
                         ItemsSource="{Binding Groups}"
-                        SelectedIndexChanged="Picker_SelectedIndexChanged"/>
+                        SelectedIndexChanged="GroupChanged"/>
                 </Frame>
                 <Frame
                     BackgroundColor="{StaticResource WitelonGrey}"
