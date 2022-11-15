@@ -16,23 +16,36 @@ public partial class LessonsPageViewModel : BaseViewModel
     private Course course;
     [ObservableProperty]
     private string group;
-	[ObservableProperty]
-	private List<DayLesson> lessonsForGroup = new();
+    [ObservableProperty]
+    private string week;
+    public ObservableRangeCollection<DayLesson> LessonsForGroup { get; set; }
     [ObservableProperty]
     private List<string> groups;
-    public List<Group> AllLessons;
+    [ObservableProperty]
+    private List<string> weeks = new() { "1", "2"};
+    [ObservableProperty]
+    private List<Legend> legends;
+    private List<Group> AllLessons;
 
     public LessonsPageViewModel(ICalendarApiService calendarApiService)
 	{
 		this.calendarApiService = calendarApiService;
-	}
+        LessonsForGroup = new();
+    }
 
-	public async void LoadLessons()
-	{
-		AllLessons = calendarApiService.GetLessons();
-		Groups = AllLessons.Select(l => l.Name).ToList();
-        Group = Groups.First();
-        LessonsForGroup = AllLessons.FirstOrDefault(g => g.Name == Group).LessonPlans;
+	public Task LoadLessons()
+    {
+        if (AllLessons is null)
+        {
+            AllLessons = calendarApiService.GetLessons();
+            Weeks = calendarApiService.GetWeeks();
+            Groups = AllLessons.Select(l => l.Name).ToList();
+            Group = Groups.First();
+            LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Group).LessonPlans);
+            Legends = calendarApiService.GetLegends();
+        }
+
+        return Task.CompletedTask;
     }
 
     [RelayCommand]
@@ -42,9 +55,15 @@ public partial class LessonsPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public async void ChangeCurrentGroup(string group)
+    public void ChangeCurrentGroup(string group)
     {
+        Group = group;
         LessonsForGroup.Clear();
-        LessonsForGroup = AllLessons.FirstOrDefault(g => g.Name == Group).LessonPlans;
+        LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Group).LessonPlans);
+    }
+
+    public void SelectWeek(string week)
+    {
+        Week = week;
     }
 }
