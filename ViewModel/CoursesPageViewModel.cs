@@ -32,11 +32,11 @@ public partial class CoursesPageViewModel : BaseViewModel
 
     public void LoadCourses()
     {
-        AllCourses = calendarApiService.GetSubjects(Department.Id);
+        AllCourses = calendarApiService.GetCourses(Department.Id);
 
         Favourite.Clear();
-        var favourites = Settings.FavouriteSubjects;
-        Favourite.AddRange(favourites.Where(s => s.DepId == Department.Id));
+        var favourites = Settings.FavouriteCoursesId;
+        Favourite.AddRange(AllCourses.Where(c => favourites.Contains(c.Id)));
 
         Courses.Clear();
         var subjects = AllCourses;
@@ -45,31 +45,38 @@ public partial class CoursesPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public void FilterCourses()
+    public async Task FilterCourses()
     {
-        var filteredResult = AllCourses.Where(s => s.Name.Contains(SearchPhrase) || s.Shorthand.Contains(SearchPhrase));
+        var filteredResult = AllCourses;
+
+        if(!string.IsNullOrWhiteSpace(searchPhrase))
+            filteredResult = AllCourses.Where(s =>
+        s.Name.ToLower().Contains(SearchPhrase.ToLower()) || s.Shorthand.ToLower().Contains(SearchPhrase.ToLower())).ToList();
+
         Courses.Clear();
         Courses.AddRange(filteredResult);
     }
 
     [RelayCommand]
-    public void AddToFavourite(Course subject)
+    public async Task AddToFavourite(Course subject)
     {
         Favourite.Add(subject);
-        var currentFavourite = Settings.FavouriteSubjects;
-        currentFavourite.Add(subject);
-        Settings.FavouriteSubjects = currentFavourite;
-        Courses.Remove(subject);
+        Courses.Remove(AllCourses.First(c => c.Id == subject.Id));
+
+        var currentFavourite = Settings.FavouriteCoursesId;
+        currentFavourite.Add(subject.Id);
+        Settings.FavouriteCoursesId = currentFavourite;
     }
 
     [RelayCommand]
-    public void RemoveFromFavourite(Course subject)
+    public async Task RemoveFromFavourite(Course subject)
     {
         Favourite.Remove(subject);
-        var currentFavourite = Settings.FavouriteSubjects;
-        currentFavourite.RemoveAll(s => s.Id == subject.Id);
-        Settings.FavouriteSubjects = currentFavourite;
         Courses.Add(subject);
+
+        var currentFavourite = Settings.FavouriteCoursesId;
+        currentFavourite.RemoveAll(s => s == subject.Id);
+        Settings.FavouriteCoursesId = currentFavourite;
     }
 
     [RelayCommand]

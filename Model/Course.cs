@@ -1,16 +1,18 @@
-﻿namespace MauiCalendarApp.Model;
+﻿using System.Text.Json.Serialization;
+
+namespace MauiCalendarApp.Model;
+
 public class Course
 {
+    [JsonPropertyName("id")]
     public int Id { get; set; }
-    public int DepId { get; set; }
-    public string Name { get; set; }
-    public string Shorthand { get; set; }
 
-    public Course(int id,int depId, string name, string shorthand)
-    {
-        Name = name;
-        Shorthand = shorthand;
-        Id = id;
-        DepId = depId;
-    }
+    [JsonPropertyName("name")]
+    public string FullName { get; set; }
+
+    public string Name =>
+        FullName.Split(" (")[0];
+
+    public string Shorthand =>
+        FullName.Split('(', ')')[1];
 }

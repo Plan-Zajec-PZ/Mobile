@@ -1,28 +1,40 @@
 ﻿using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
+using MauiCalendarApp.Model.Responses;
+using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace MauiCalendarApp.Services;
 public class CalendarApiService : ICalendarApiService
 {
-    public List<Department> GetDepartments()
+    HttpClient _client;
+
+    public CalendarApiService()
     {
-        return new List<Department>
+        _client = new HttpClient
         {
-            new Department(0, "Wydział Nauk o Zdrowiu i Kulturze Fizycznej"),
-            new Department(1, "Wydział Nauk Technicznych i Ekonomicznych"),
-            new Department(2, "Wydział Nauk Społęcznych i Humanistycznych")
+            BaseAddress = new Uri("https://planzajec.up.railway.app/api/")
         };
+        _client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", "Fummt2MTyUYqTQLcl29ChP9eTHz6NG7qy5wV");
     }
 
-    public List<Course> GetSubjects(int departmentId)
+    public List<Department> GetFaculties()
     {
-        return new List<Course>
-        {
-            new(1, 0, "Zdrowie", "Zdr"), new(2, 0, "Kultura", "Kul"), new(3, 0, "Fizyczność", "FiZ"),
-            new(4, 1, "Technika", "Tech"), new(5, 1, "Ekonomia", "EkO"), new(6, 1, "Techonomia", "TEkO"),
-            new(7, 2, "Społeczeństwo", "Spo"), new(8, 2, "Humanizm", "HUM"), new(9, 2, "Filozofia", "Filo")
-        }
-        .Where(s => s.DepId == departmentId).ToList();
+        var response = _client.GetAsync("faculties").Result;
+        var text = response.Content.ReadAsStringAsync().Result;
+        var responseData = JsonSerializer.Deserialize<ApiResponse<List<Department>>>(text);
+
+        return responseData.Data;
+    }
+
+    public List<Course> GetCourses(int facultyId)
+    {
+        var response = _client.GetAsync($"faculties/{facultyId}").Result;
+        var text = response.Content.ReadAsStringAsync().Result;
+        var responseData = JsonSerializer.Deserialize<ApiResponse<CoursesResponse>>(text);
+
+        return responseData.Data.Courses;
     }
 
     public List<Group> GetLessons()
