@@ -5,7 +5,13 @@
                x:Class="MauiCalendarApp.View.SpecializationPopup">
 
     <VerticalStackLayout>
-        <Label Text="This is a very important message!" />
+        <Label Text="Wybierz specjalizację" FontSize="Header"/>
+        <Button
+            x:Name="button1"
+            Clicked="Button1_Clicked" />
+        <Button
+            x:Name="button2"
+            Clicked="Button2_Clicked" />
     </VerticalStackLayout>
 
 </toolkit:Popup>

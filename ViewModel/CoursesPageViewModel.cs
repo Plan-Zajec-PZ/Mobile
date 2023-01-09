@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using MauiCalendarApp.Helpers;
 using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
+using MauiCalendarApp.Model.Requests;
 using MauiCalendarApp.View;
 using MvvmHelpers;
 
@@ -92,13 +93,17 @@ public partial class CoursesPageViewModel : BaseViewModel
     {
         if (course.Specializations.Count > 1)
         {
-            var selectionPopup = new SpecializationPopup();
+            var selectionPopup = new SpecializationPopup(course);
             CoursesPage.ShowPopup(selectionPopup);
+            return;
         }
 
         Shell.Current.GoToAsync(nameof(LessonsPage), true, new Dictionary<string, object>
         {
-            {"Course", course }
+            {
+                "LessonsRequest",
+                new LessonsRequest{ CourseId = course.Id, SpecializationId = course.Specializations[0].Id }
+            }
         });
     }
 }

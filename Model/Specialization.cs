@@ -9,4 +9,7 @@ public class Specialization
 
     [JsonPropertyName("name")]
     public string Name { get; set; }
+
+    public string ShortHand =>
+        Name.Split('(')[0];
 }
