@@ -58,7 +58,7 @@ public partial class CoursesPageViewModel : BaseViewModel
 
         if(!string.IsNullOrWhiteSpace(searchPhrase))
             filteredResult = AllCourses.Where(s =>
-        s.FullName.ToLower().Contains(SearchPhrase.ToLower()) || s.Shorthand.ToLower().Contains(SearchPhrase.ToLower())).ToList();
+        s.Name.ToLower().Contains(SearchPhrase.ToLower()) || s.Shorthand.ToLower().Contains(SearchPhrase.ToLower())).ToList();
 
         Courses.Clear();
         Courses.AddRange(filteredResult);

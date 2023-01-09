@@ -8,7 +8,7 @@ public class Course
     public int Id { get; set; }
 
     [JsonPropertyName("name")]
-    public string FullName { get; set; }
+    public string Name { get; set; }
 
     [JsonPropertyName("specializations")]
     public List<Specialization> Specializations { get; set; }

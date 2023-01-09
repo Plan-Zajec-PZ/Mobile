@@ -77,7 +77,7 @@
                                     Grid.Column="1"
                                     Grid.Row="0"
                                     Grid.RowSpan="2"
-                                    Text="{Binding FullName}"/>
+                                    Text="{Binding Name}"/>
                                     <Label
                                     Grid.Column="1"
                                     Grid.Row="1"
@@ -136,7 +136,7 @@
                             Grid.Column="1"
                             Grid.Row="0"
                             Grid.RowSpan="2"
-                            Text="{Binding FullName}"/>
+                            Text="{Binding Name}"/>
                         <Label
                             Grid.Column="1"
                             Grid.Row="1"
