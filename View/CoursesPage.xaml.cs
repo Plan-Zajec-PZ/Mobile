@@ -16,6 +16,13 @@ public partial class CoursesPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        viewModel.LoadCourses();
+        if(viewModel.AllCourses.Count == 0)
+            viewModel.LoadCourses();
+    }
+
+    public void ShowPopup()
+    {
+        var selectionPopup = new SpecializationPopup();
+        this.ShowPopup(selectionPopup);
     }
 }

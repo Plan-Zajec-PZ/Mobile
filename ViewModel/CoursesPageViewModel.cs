@@ -1,11 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiCalendarApp.Helpers;
 using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
 using MauiCalendarApp.View;
 using MvvmHelpers;
-using System.Collections.ObjectModel;
 
 namespace MauiCalendarApp.ViewModel;
 
@@ -58,7 +58,7 @@ public partial class CoursesPageViewModel : BaseViewModel
 
         if(!string.IsNullOrWhiteSpace(searchPhrase))
             filteredResult = AllCourses.Where(s =>
-        s.Name.ToLower().Contains(SearchPhrase.ToLower()) || s.Shorthand.ToLower().Contains(SearchPhrase.ToLower())).ToList();
+        s.FullName.ToLower().Contains(SearchPhrase.ToLower()) || s.Shorthand.ToLower().Contains(SearchPhrase.ToLower())).ToList();
 
         Courses.Clear();
         Courses.AddRange(filteredResult);
@@ -89,9 +89,9 @@ public partial class CoursesPageViewModel : BaseViewModel
     [RelayCommand]
     public void SelectCourse(Course course)
     {
-        Shell.Current.GoToAsync(nameof(LessonsPage), true, new Dictionary<string, object>
-        {
-            {"Course", course }
-        });
+        //Shell.Current.GoToAsync(nameof(LessonsPage), true, new Dictionary<string, object>
+        //{
+        //    {"Course", course }
+        //});
     }
 }

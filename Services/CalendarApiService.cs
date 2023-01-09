@@ -42,12 +42,12 @@ public class CalendarApiService : ICalendarApiService
     {
         try
         {
-            var response = _client.GetAsync($"faculties/{facultyId}").Result;
+            var response = _client.GetAsync($"faculties/{facultyId}/majors").Result;
 
             var text = response.Content.ReadAsStringAsync().Result;
-            var responseData = JsonSerializer.Deserialize<ApiResponse<CoursesResponse>>(text);
+            var responseData = JsonSerializer.Deserialize<ApiResponse<List<Course>>>(text);
 
-            return responseData.Data.Courses;
+            return responseData.Data;
         }
         catch (Exception)
         {

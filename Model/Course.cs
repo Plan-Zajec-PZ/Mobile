@@ -10,9 +10,9 @@ public class Course
     [JsonPropertyName("name")]
     public string FullName { get; set; }
 
-    public string Name =>
-        FullName.Split(" (")[0];
+    [JsonPropertyName("specializations")]
+    public List<Specialization> Specializations { get; set; }
 
     public string Shorthand =>
-        FullName.Split('(', ')')[1];
+        string.Join('|',Specializations.Select(s => s.Name.Split(" (")[0]));
 }
