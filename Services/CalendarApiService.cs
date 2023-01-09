@@ -1,4 +1,5 @@
-﻿using MauiCalendarApp.Interfaces;
+﻿using CommunityToolkit.Maui.Alerts;
+using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
 using MauiCalendarApp.Model.Responses;
 using System.Net.Http.Headers;
@@ -21,20 +22,38 @@ public class CalendarApiService : ICalendarApiService
 
     public List<Department> GetFaculties()
     {
-        var response = _client.GetAsync("faculties").Result;
-        var text = response.Content.ReadAsStringAsync().Result;
-        var responseData = JsonSerializer.Deserialize<ApiResponse<List<Department>>>(text);
+        try
+        {
+            var response = _client.GetAsync("faculties").Result;
 
-        return responseData.Data;
+            var text = response.Content.ReadAsStringAsync().Result;
+            var responseData = JsonSerializer.Deserialize<ApiResponse<List<Department>>>(text);
+
+            return responseData.Data;
+        }
+        catch (Exception)
+        {
+            Toast.Make("Connection error").Show();
+            return new List<Department>();
+        }
     }
 
     public List<Course> GetCourses(int facultyId)
     {
-        var response = _client.GetAsync($"faculties/{facultyId}").Result;
-        var text = response.Content.ReadAsStringAsync().Result;
-        var responseData = JsonSerializer.Deserialize<ApiResponse<CoursesResponse>>(text);
+        try
+        {
+            var response = _client.GetAsync($"faculties/{facultyId}").Result;
 
-        return responseData.Data.Courses;
+            var text = response.Content.ReadAsStringAsync().Result;
+            var responseData = JsonSerializer.Deserialize<ApiResponse<CoursesResponse>>(text);
+
+            return responseData.Data.Courses;
+        }
+        catch (Exception)
+        {
+            Toast.Make("Connection error").Show();
+            return new List<Course>();
+        }
     }
 
     public List<Group> GetLessons()
@@ -44,6 +63,142 @@ public class CalendarApiService : ICalendarApiService
             new Group
             {
                 Name = "Gr1",
+                LessonPlans = new List<DayLesson>
+                {
+                    new DayLesson
+                    {
+                        Date = DateTime.Now,
+                        Lessons = new List<Lesson>
+                        {
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            },
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            },
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            },
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            },
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            },
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            }
+                        }
+                    },
+                    new DayLesson
+                    {
+                        Date = DateTime.Now.AddDays(1),
+                        Lessons = new List<Lesson>
+                        {
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            },
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            },
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            },
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            },
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            },
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            }
+                        }
+                    },
+                    new DayLesson
+                    {
+                        Date = DateTime.Now.AddDays(2),
+                        Lessons = new List<Lesson>
+                        {
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            },
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            },
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            },
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            },
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            },
+                            new Lesson
+                            {
+                                Subject = "Informatyka",
+                                Teacher = "Matejko",
+                                Classroom = "200A"
+                            }
+                        }
+                    }
+                }
+            },
+            new Group
+            {
+                Name = "Gr2",
                 LessonPlans = new List<DayLesson>
                 {
                     new DayLesson

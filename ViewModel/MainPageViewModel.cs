@@ -34,7 +34,7 @@ public partial class MainPageViewModel : BaseViewModel
 		string departmentName = Settings.LastSelectedDepartmentName;
 
 
-        if (departmentName != null)
+        if (departmentName != null && departments.Count > 0)
 		{
 			var department = departments.Find(d => d.Name == departmentName);
 			department.LastSelected = true;

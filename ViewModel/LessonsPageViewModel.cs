@@ -15,7 +15,7 @@ public partial class LessonsPageViewModel : BaseViewModel
     [ObservableProperty]
     private Course course;
     [ObservableProperty]
-    private string group;
+    private int groupIndex;
     [ObservableProperty]
     private string week;
     public ObservableRangeCollection<DayLesson> LessonsForGroup { get; set; }
@@ -40,8 +40,8 @@ public partial class LessonsPageViewModel : BaseViewModel
             AllLessons = calendarApiService.GetLessons();
             Weeks = calendarApiService.GetWeeks();
             Groups = AllLessons.Select(l => l.Name).ToList();
-            Group = Groups.First();
-            LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Group).LessonPlans);
+            GroupIndex = 0;
+            LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Groups[GroupIndex]).LessonPlans);
             Legends = calendarApiService.GetLegends();
         }
 
@@ -55,11 +55,10 @@ public partial class LessonsPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public void ChangeCurrentGroup(string group)
+    public void ChangeCurrentGroup()
     {
-        Group = group;
         LessonsForGroup.Clear();
-        LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Group).LessonPlans);
+        LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Groups[GroupIndex]).LessonPlans);
     }
 
     public void SelectWeek(string week)

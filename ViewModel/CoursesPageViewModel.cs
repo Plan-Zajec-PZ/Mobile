@@ -5,6 +5,7 @@ using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
 using MauiCalendarApp.View;
 using MvvmHelpers;
+using System.Collections.ObjectModel;
 
 namespace MauiCalendarApp.ViewModel;
 
@@ -36,12 +37,18 @@ public partial class CoursesPageViewModel : BaseViewModel
 
         Favourite.Clear();
         var favourites = Settings.FavouriteCoursesId;
-        Favourite.AddRange(AllCourses.Where(c => favourites.Contains(c.Id)));
+        foreach(Course favourite in AllCourses.Where(c => favourites.Contains(c.Id)))
+        {
+            Favourite.Add(favourite);
+        }
+        
 
         Courses.Clear();
         var subjects = AllCourses;
         subjects.RemoveAll(s => Favourite.Select(f => f.Id).Contains(s.Id));
-        Courses.AddRange(subjects);
+        
+        foreach(Course course in subjects)
+            Courses.Add(course);
     }
 
     [RelayCommand]
@@ -61,7 +68,7 @@ public partial class CoursesPageViewModel : BaseViewModel
     public async Task AddToFavourite(Course subject)
     {
         Favourite.Add(subject);
-        Courses.Remove(AllCourses.First(c => c.Id == subject.Id));
+        Courses.Remove(subject);
 
         var currentFavourite = Settings.FavouriteCoursesId;
         currentFavourite.Add(subject.Id);
