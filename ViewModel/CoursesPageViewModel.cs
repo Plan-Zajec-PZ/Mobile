@@ -13,6 +13,7 @@ namespace MauiCalendarApp.ViewModel;
 public partial class CoursesPageViewModel : BaseViewModel
 {
 	private readonly ICalendarApiService calendarApiService;
+    public CoursesPage CoursesPage { get; set; }
 
     public List<Course> AllCourses;
 
@@ -89,9 +90,15 @@ public partial class CoursesPageViewModel : BaseViewModel
     [RelayCommand]
     public void SelectCourse(Course course)
     {
-        //Shell.Current.GoToAsync(nameof(LessonsPage), true, new Dictionary<string, object>
-        //{
-        //    {"Course", course }
-        //});
+        if (course.Specializations.Count > 1)
+        {
+            var selectionPopup = new SpecializationPopup();
+            CoursesPage.ShowPopup(selectionPopup);
+        }
+
+        Shell.Current.GoToAsync(nameof(LessonsPage), true, new Dictionary<string, object>
+        {
+            {"Course", course }
+        });
     }
 }
