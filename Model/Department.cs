@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 
 namespace MauiCalendarApp.Model;
-public class Department
+public class Faculty
 {
     [JsonPropertyName("id")]
     public int Id { get; set; }

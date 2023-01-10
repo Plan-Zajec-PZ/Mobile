@@ -5,7 +5,8 @@ using MauiCalendarApp.Model.Responses;
 namespace MauiCalendarApp.Interfaces;
 public interface ICalendarApiService
 {
-    List<Department> GetFaculties();
+    List<Faculty> GetFaculties();
     List<Course> GetCourses(int facultyId);
     LessonsResponse GetLessons(LessonsRequest lessonsRequest);
+    List<Lecturer> GetLecturersForFaculty(int facultyId);
 }

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MauiCalendarApp.Helpers;
 using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
@@ -8,7 +9,10 @@ using MvvmHelpers;
 namespace MauiCalendarApp.ViewModel;
 public partial class MainPageViewModel : BaseViewModel
 {
-	public ObservableRangeCollection<Department> Departments { get; } = new();
+	public ObservableRangeCollection<Faculty> Faculties { get; } = new();
+
+	[ObservableProperty]
+	private Faculty lecturers;
 
 	private readonly ICalendarApiService calendarApiService;
 
@@ -18,13 +22,28 @@ public partial class MainPageViewModel : BaseViewModel
 	}
 
 	[RelayCommand]
-	public void SelectDepartment(Department department)
+	public void SelectDepartment(Faculty department)
 	{
 		Settings.LastSelectedDepartmentName = department.Name;
 
 		Shell.Current.GoToAsync(nameof(CoursesPage), true, new Dictionary<string, object>
 		{
-			{"Department", department }
+			{
+				"Data",
+				department
+			}
+		});
+	}
+
+    [RelayCommand]
+    public void FindLecturer()
+	{
+		Shell.Current.GoToAsync(nameof(LecturersPage),true, new Dictionary<string, object>
+		{
+			{
+				"Data",
+				Faculties.ToList()
+			}
 		});
 	}
 
@@ -38,9 +57,14 @@ public partial class MainPageViewModel : BaseViewModel
 		{
 			var department = departments.Find(d => d.Name == departmentName);
 			department.LastSelected = true;
-        }	
+        }
 
-		Departments.Clear();
-        Departments.AddRange(departments);
+		var lastDepartment = departments.Last();
+		Lecturers = lastDepartment;
+		departments.Remove(lastDepartment);
+
+
+        Faculties.Clear();
+        Faculties.AddRange(departments);
     }
 }

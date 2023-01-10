@@ -10,7 +10,7 @@ using MvvmHelpers;
 
 namespace MauiCalendarApp.ViewModel;
 
-[QueryProperty(nameof(Department), "Department")]
+[QueryProperty(nameof(Faculty), "Data")]
 public partial class CoursesPageViewModel : BaseViewModel
 {
 	private readonly ICalendarApiService calendarApiService;
@@ -19,7 +19,7 @@ public partial class CoursesPageViewModel : BaseViewModel
     public List<Course> AllCourses;
 
     [ObservableProperty]
-    private Department department;
+    private Faculty faculty;
 
     [ObservableProperty]
     private string searchPhrase;
@@ -35,7 +35,7 @@ public partial class CoursesPageViewModel : BaseViewModel
 
     public void LoadCourses()
     {
-        AllCourses = calendarApiService.GetCourses(Department.Id);
+        AllCourses = calendarApiService.GetCourses(Faculty.Id);
 
         Favourite.Clear();
         var favourites = Settings.FavouriteCoursesId;

@@ -12,7 +12,7 @@
         <CollectionView.Header>
             <StackLayout>
                 <Label
-                    Text="{Binding Department.Name}"
+                    Text="{Binding Faculty.Name}"
                     FontSize="20"
                     Margin="20"
                     FontAttributes="Bold"
