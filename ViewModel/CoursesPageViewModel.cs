@@ -101,7 +101,7 @@ public partial class CoursesPageViewModel : BaseViewModel
         Shell.Current.GoToAsync(nameof(LessonsPage), true, new Dictionary<string, object>
         {
             {
-                "LessonsRequest",
+                "Data",
                 new LessonsRequest{ CourseId = course.Id, SpecializationId = course.Specializations[0].Id }
             }
         });

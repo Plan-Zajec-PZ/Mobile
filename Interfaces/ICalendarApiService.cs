@@ -1,11 +1,11 @@
 ﻿using MauiCalendarApp.Model;
+using MauiCalendarApp.Model.Requests;
+using MauiCalendarApp.Model.Responses;
 
 namespace MauiCalendarApp.Interfaces;
 public interface ICalendarApiService
 {
     List<Department> GetFaculties();
     List<Course> GetCourses(int facultyId);
-    List<Group> GetLessons();
-    List<Legend> GetLegends();
-    List<string> GetWeeks();
+    LessonsResponse GetLessons(LessonsRequest lessonsRequest);
 }

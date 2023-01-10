@@ -1,6 +1,12 @@
-﻿namespace MauiCalendarApp.Model;
+﻿using System.Text.Json.Serialization;
+
+namespace MauiCalendarApp.Model;
 public class Legend
 {
-    public string Subject { get; set; }
+    [JsonPropertyName("fullname")]
     public string Name { get; set; }
+
+    [JsonPropertyName("abbreviation")]
+    public string Shorthand { get; set; }
+
 }

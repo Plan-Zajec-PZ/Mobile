@@ -115,10 +115,10 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Frame BackgroundColor="Transparent" Margin="0" Padding="0" Grid.Column="0" CornerRadius="0" BorderColor="Black">
-                                    <Label Text="{Binding Subject}" TextColor="Black" HorizontalOptions="Center"/>
+                                    <Label Text="{Binding Name}" TextColor="Black" HorizontalOptions="Center"/>
                                 </Frame>
                                 <Frame BackgroundColor="Transparent" Margin="0" Padding="0" Grid.Column="1" CornerRadius="0" BorderColor="Black">
-                                    <Label Text="{Binding Name}" LineBreakMode="CharacterWrap" HorizontalOptions="CenterAndExpand"/>
+                                    <Label Text="{Binding Shorthand}" LineBreakMode="CharacterWrap" HorizontalOptions="CenterAndExpand"/>
                                 </Frame>
                             </Grid>
                         </DataTemplate>
@@ -127,7 +127,7 @@
             </Frame>
         </CollectionView.Footer>
         <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="models:DayLesson">
+            <DataTemplate x:DataType="models:Shedule">
                 <Grid Margin="0" Padding="0" RowSpacing="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -156,7 +156,7 @@
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
                                                 <Frame Grid.Column="0" Margin="0" Padding="5" BackgroundColor="Transparent" CornerRadius="0" BorderColor="Black">
-                                                    <Label  Text="Godzina" />
+                                                    <Label  Text="{Binding Time}" />
                                                 </Frame>
                                                 <Frame Grid.Column="1" Margin="0" Padding="5" BackgroundColor="Transparent" CornerRadius="0" BorderColor="Black">
                                                     <Label  Text="{Binding Subject}" />

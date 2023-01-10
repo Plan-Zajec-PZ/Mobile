@@ -2,15 +2,17 @@
 using CommunityToolkit.Mvvm.Input;
 using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
+using MauiCalendarApp.Model.Requests;
 using MauiCalendarApp.View;
 using MvvmHelpers;
 
 namespace MauiCalendarApp.ViewModel;
 
-[QueryProperty(nameof(Course), "Course")]
+[QueryProperty(nameof(LessonsRequest), "Data")]
 public partial class LessonsPageViewModel : BaseViewModel
 {
 	private readonly ICalendarApiService calendarApiService;
+    public LessonsRequest LessonsRequest { get; set; }
 
     [ObservableProperty]
     private Course course;
@@ -18,7 +20,7 @@ public partial class LessonsPageViewModel : BaseViewModel
     private int groupIndex;
     [ObservableProperty]
     private string week;
-    public ObservableRangeCollection<DayLesson> LessonsForGroup { get; set; }
+    public ObservableRangeCollection<Shedule> LessonsForGroup { get; set; }
     [ObservableProperty]
     private List<string> groups;
     [ObservableProperty]
@@ -37,12 +39,13 @@ public partial class LessonsPageViewModel : BaseViewModel
     {
         if (AllLessons is null)
         {
-            AllLessons = calendarApiService.GetLessons();
-            Weeks = calendarApiService.GetWeeks();
+            var response = calendarApiService.GetLessons(LessonsRequest);
+            AllLessons = response.Groups;
             Groups = AllLessons.Select(l => l.Name).ToList();
             GroupIndex = 0;
-            LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Groups[GroupIndex]).LessonPlans);
-            Legends = calendarApiService.GetLegends();
+            LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Groups[GroupIndex]).ShedulePlan);
+            //Weeks = response;
+            Legends = response.Legends;
         }
 
         return Task.CompletedTask;
@@ -58,7 +61,7 @@ public partial class LessonsPageViewModel : BaseViewModel
     public void ChangeCurrentGroup()
     {
         LessonsForGroup.Clear();
-        LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Groups[GroupIndex]).LessonPlans);
+        LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Groups[GroupIndex]).ShedulePlan);
     }
 
     public void SelectWeek(string week)

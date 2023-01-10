@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
+using MauiCalendarApp.Model.Requests;
 using MauiCalendarApp.Model.Responses;
 using System.Net.Http.Headers;
 using System.Text.Json;
@@ -31,8 +32,9 @@ public class CalendarApiService : ICalendarApiService
 
             return responseData.Data;
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            Console.WriteLine(e.Message);
             Toast.Make("Connection error").Show();
             return new List<Department>();
         }
@@ -49,305 +51,32 @@ public class CalendarApiService : ICalendarApiService
 
             return responseData.Data;
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            Console.WriteLine(e.Message);
             Toast.Make("Connection error").Show();
             return new List<Course>();
         }
     }
 
-    public List<Group> GetLessons()
+    public LessonsResponse GetLessons(LessonsRequest lessonsRequest)
     {
-        return new List<Group>
+        try
         {
-            new Group
-            {
-                Name = "Gr1",
-                LessonPlans = new List<DayLesson>
-                {
-                    new DayLesson
-                    {
-                        Date = DateTime.Now,
-                        Lessons = new List<Lesson>
-                        {
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            }
-                        }
-                    },
-                    new DayLesson
-                    {
-                        Date = DateTime.Now.AddDays(1),
-                        Lessons = new List<Lesson>
-                        {
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            }
-                        }
-                    },
-                    new DayLesson
-                    {
-                        Date = DateTime.Now.AddDays(2),
-                        Lessons = new List<Lesson>
-                        {
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            }
-                        }
-                    }
-                }
-            },
-            new Group
-            {
-                Name = "Gr2",
-                LessonPlans = new List<DayLesson>
-                {
-                    new DayLesson
-                    {
-                        Date = DateTime.Now,
-                        Lessons = new List<Lesson>
-                        {
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            }
-                        }
-                    },
-                    new DayLesson
-                    {
-                        Date = DateTime.Now.AddDays(1),
-                        Lessons = new List<Lesson>
-                        {
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            }
-                        }
-                    },
-                    new DayLesson
-                    {
-                        Date = DateTime.Now.AddDays(2),
-                        Lessons = new List<Lesson>
-                        {
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            }
-                        }
-                    }
-                }
-            }
-        };
-    }
+            var response = _client.GetAsync(
+                $"majors/{lessonsRequest.CourseId}/specializations/{lessonsRequest.SpecializationId}"
+                ).Result;
 
-    public List<Legend> GetLegends()
-    {
-        return new List<Legend>
+            var text = response.Content.ReadAsStringAsync().Result;
+            var responseData = JsonSerializer.Deserialize<ApiResponse<LessonsResponse>>(text);
+
+            return responseData.Data;
+        }
+        catch (Exception e)
         {
-            new Legend{ Subject = "Inf", Name = "Informatyka" },
-            new Legend{ Subject = "PzoD", Name = "Przodek kuchenny" }
-        };
-    }
-
-    public List<string> GetWeeks()
-    {
-        return new (){
-            "42", "43", "44", "45"
-        };
+            Console.WriteLine(e.Message);
+            Toast.Make("Connection error").Show();
+            return new LessonsResponse();
+        }
     }
 }

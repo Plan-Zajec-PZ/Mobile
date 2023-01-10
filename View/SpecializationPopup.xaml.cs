@@ -22,10 +22,12 @@ public partial class SpecializationPopup : Popup
         Shell.Current.GoToAsync(nameof(LessonsPage), true, new Dictionary<string, object>
 		{
 			{
-				"LessonsRequest",
+                nameof(LessonsRequest),
 				new LessonsRequest{ CourseId = Course.Id, SpecializationId = Course.Specializations[0].Id }
 			}
         });
+
+        Close();
     }
 
 	private void Button2_Clicked(object sender, EventArgs e)
@@ -33,9 +35,11 @@ public partial class SpecializationPopup : Popup
         Shell.Current.GoToAsync(nameof(LessonsPage), true, new Dictionary<string, object>
         {
             {
-                "LessonsRequest",
+                nameof(LessonsRequest),
                 new LessonsRequest{ CourseId = Course.Id, SpecializationId = Course.Specializations[1].Id }
             }
         });
+
+        Close();
     }
 }
