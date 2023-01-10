@@ -1,8 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiCalendarApp.Helpers;
 using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
+using MauiCalendarApp.Model.Requests;
 using MauiCalendarApp.View;
 using MvvmHelpers;
 
@@ -12,6 +14,7 @@ namespace MauiCalendarApp.ViewModel;
 public partial class CoursesPageViewModel : BaseViewModel
 {
 	private readonly ICalendarApiService calendarApiService;
+    public CoursesPage CoursesPage { get; set; }
 
     public List<Course> AllCourses;
 
@@ -32,52 +35,75 @@ public partial class CoursesPageViewModel : BaseViewModel
 
     public void LoadCourses()
     {
-        AllCourses = calendarApiService.GetSubjects(Department.Id);
+        AllCourses = calendarApiService.GetCourses(Department.Id);
 
         Favourite.Clear();
-        var favourites = Settings.FavouriteSubjects;
-        Favourite.AddRange(favourites.Where(s => s.DepId == Department.Id));
+        var favourites = Settings.FavouriteCoursesId;
+        foreach(Course favourite in AllCourses.Where(c => favourites.Contains(c.Id)))
+        {
+            Favourite.Add(favourite);
+        }
+        
 
         Courses.Clear();
         var subjects = AllCourses;
         subjects.RemoveAll(s => Favourite.Select(f => f.Id).Contains(s.Id));
-        Courses.AddRange(subjects);
+        
+        foreach(Course course in subjects)
+            Courses.Add(course);
     }
 
     [RelayCommand]
-    public void FilterCourses()
+    public async Task FilterCourses()
     {
-        var filteredResult = AllCourses.Where(s => s.Name.Contains(SearchPhrase) || s.Shorthand.Contains(SearchPhrase));
+        var filteredResult = AllCourses;
+
+        if(!string.IsNullOrWhiteSpace(searchPhrase))
+            filteredResult = AllCourses.Where(s =>
+        s.Name.ToLower().Contains(SearchPhrase.ToLower()) || s.Shorthand.ToLower().Contains(SearchPhrase.ToLower())).ToList();
+
         Courses.Clear();
         Courses.AddRange(filteredResult);
     }
 
     [RelayCommand]
-    public void AddToFavourite(Course subject)
+    public async Task AddToFavourite(Course subject)
     {
         Favourite.Add(subject);
-        var currentFavourite = Settings.FavouriteSubjects;
-        currentFavourite.Add(subject);
-        Settings.FavouriteSubjects = currentFavourite;
         Courses.Remove(subject);
+
+        var currentFavourite = Settings.FavouriteCoursesId;
+        currentFavourite.Add(subject.Id);
+        Settings.FavouriteCoursesId = currentFavourite;
     }
 
     [RelayCommand]
-    public void RemoveFromFavourite(Course subject)
+    public async Task RemoveFromFavourite(Course subject)
     {
         Favourite.Remove(subject);
-        var currentFavourite = Settings.FavouriteSubjects;
-        currentFavourite.RemoveAll(s => s.Id == subject.Id);
-        Settings.FavouriteSubjects = currentFavourite;
         Courses.Add(subject);
+
+        var currentFavourite = Settings.FavouriteCoursesId;
+        currentFavourite.RemoveAll(s => s == subject.Id);
+        Settings.FavouriteCoursesId = currentFavourite;
     }
 
     [RelayCommand]
     public void SelectCourse(Course course)
     {
+        if (course.Specializations.Count > 1)
+        {
+            var selectionPopup = new SpecializationPopup(course);
+            CoursesPage.ShowPopup(selectionPopup);
+            return;
+        }
+
         Shell.Current.GoToAsync(nameof(LessonsPage), true, new Dictionary<string, object>
         {
-            {"Course", course }
+            {
+                "Data",
+                new LessonsRequest{ CourseId = course.Id, SpecializationId = course.Specializations[0].Id }
+            }
         });
     }
 }

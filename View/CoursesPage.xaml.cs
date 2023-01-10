@@ -10,12 +10,15 @@ public partial class CoursesPage : ContentPage
 	{
 		InitializeComponent();
 		BindingContext = viewModel;
+        viewModel.CoursesPage = this;
         this.viewModel = viewModel;
+        
 	}
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        viewModel.LoadCourses();
+        if(viewModel.AllCourses == null)
+            viewModel.LoadCourses();
     }
 }

@@ -2,47 +2,55 @@
 using CommunityToolkit.Mvvm.Input;
 using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
+using MauiCalendarApp.Model.Requests;
 using MauiCalendarApp.View;
 using MvvmHelpers;
 
 namespace MauiCalendarApp.ViewModel;
 
-[QueryProperty(nameof(Course), "Course")]
+[QueryProperty(nameof(LessonsRequest), "Data")]
 public partial class LessonsPageViewModel : BaseViewModel
 {
 	private readonly ICalendarApiService calendarApiService;
+    public LessonsRequest LessonsRequest { get; set; }
 
     [ObservableProperty]
     private Course course;
     [ObservableProperty]
-    private string group;
+    private int groupIndex;
     [ObservableProperty]
-    private string week;
-    public ObservableRangeCollection<DayLesson> LessonsForGroup { get; set; }
+    private int weekIndex;
+    public ObservableRangeCollection<Shedule> FilteredLessons { get; set; }
     [ObservableProperty]
     private List<string> groups;
     [ObservableProperty]
     private List<string> weeks = new() { "1", "2"};
     [ObservableProperty]
     private List<Legend> legends;
-    private List<Group> AllLessons;
+    private List<Group> AllGroups;
 
     public LessonsPageViewModel(ICalendarApiService calendarApiService)
 	{
 		this.calendarApiService = calendarApiService;
-        LessonsForGroup = new();
+        FilteredLessons = new();
     }
 
 	public Task LoadLessons()
     {
-        if (AllLessons is null)
+        if (AllGroups is null)
         {
-            AllLessons = calendarApiService.GetLessons();
-            Weeks = calendarApiService.GetWeeks();
-            Groups = AllLessons.Select(l => l.Name).ToList();
-            Group = Groups.First();
-            LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Group).LessonPlans);
-            Legends = calendarApiService.GetLegends();
+            var response = calendarApiService.GetLessons(LessonsRequest);
+            AllGroups = response.Groups;
+
+            Groups = AllGroups.Select(l => l.Name).ToList();
+            GroupIndex = 0;
+
+            Weeks = response.Groups[GroupIndex].Weeks;
+            WeekIndex = 0;
+
+            FilterLessons();
+
+            Legends = response.Legends;
         }
 
         return Task.CompletedTask;
@@ -55,15 +63,12 @@ public partial class LessonsPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public void ChangeCurrentGroup(string group)
+    public void FilterLessons()
     {
-        Group = group;
-        LessonsForGroup.Clear();
-        LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Group).LessonPlans);
-    }
-
-    public void SelectWeek(string week)
-    {
-        Week = week;
+        FilteredLessons.Clear();
+        FilteredLessons.AddRange(AllGroups
+            .FirstOrDefault(g => g.Name == Groups[GroupIndex]).ShedulePlan
+            .Where(l => l.WeekOfYear == Weeks[weekIndex])
+            );
     }
 }

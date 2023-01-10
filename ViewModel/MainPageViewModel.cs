@@ -30,11 +30,11 @@ public partial class MainPageViewModel : BaseViewModel
 
 	public void LoadDepartments()
 	{
-		var departments = calendarApiService.GetDepartments();
+		var departments = calendarApiService.GetFaculties();
 		string departmentName = Settings.LastSelectedDepartmentName;
 
 
-        if (departmentName != null)
+        if (departmentName != null && departments.Count > 0)
 		{
 			var department = departments.Find(d => d.Name == departmentName);
 			department.LastSelected = true;

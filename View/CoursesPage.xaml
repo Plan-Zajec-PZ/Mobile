@@ -8,7 +8,7 @@
              x:DataType="viewmodel:CoursesPageViewModel"
              Title="HARMONOGRAM COLEGIUM WITELONA">
     <CollectionView
-                ItemsSource="{Binding Favourite}">
+                ItemsSource="{Binding Courses}">
         <CollectionView.Header>
             <StackLayout>
                 <Label
@@ -32,8 +32,69 @@
                         </Entry.Behaviors>
                     </Entry>
                 </Frame>
-                <Label
+                <CollectionView
+                ItemsSource="{Binding Favourite}">
+                    <CollectionView.Header>
+                        <Label
                     Text="Ulubione"
+                    FontSize="Header"
+                    Margin="40,10,20,0"
+                    FontAttributes="Bold"/>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Course">
+                            <Frame
+                            CornerRadius="2"
+                            BorderColor="Transparent"
+                            BackgroundColor="#e8e7ed"
+                            Padding="10"
+                            Margin="20,10,20,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition
+                                        Width="Auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Image
+                                    Margin="0,0,10,0"
+                                    Aspect="AspectFill"
+                                    Source="goldstar.png"
+                                    HorizontalOptions="Start"
+                                    WidthRequest="20"
+                                    HeightRequest="20"
+                                    Grid.Column="0"
+                                    Grid.Row="0">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:CoursesPageViewModel}}, Path=RemoveFromFavouriteCommand}"
+                                              CommandParameter="{Binding .}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Label
+                                    Grid.Column="1"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Text="{Binding Name}"/>
+                                    <Label
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Text="{Binding Shorthand}"
+                                    TextColor="#81b7db"
+                                    HorizontalTextAlignment="End"/>
+                                </Grid>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:CoursesPageViewModel}}, Path=SelectCourseCommand}"
+                                              CommandParameter="{Binding .}"/>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Label
+                    Text="Harmonogramy"
                     FontSize="Header"
                     Margin="40,10,20,0"
                     FontAttributes="Bold"/>
@@ -61,19 +122,20 @@
                             Margin="0,0,10,0"
                             Aspect="AspectFill"
                             HorizontalOptions="Start"
-                            Source="goldstar.png"
-                            WidthRequest="10"
-                            HeightRequest="10"
+                            Source="emptystar.png"
+                            WidthRequest="20"
+                            HeightRequest="20"
                             Grid.Column="0"
                             Grid.Row="0">
                             <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:CoursesPageViewModel}}, Path=RemoveFromFavouriteCommand}"
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:CoursesPageViewModel}}, Path=AddToFavouriteCommand}"
                                               CommandParameter="{Binding .}"/>
                             </Image.GestureRecognizers>
                         </Image>
                         <Label
                             Grid.Column="1"
                             Grid.Row="0"
+                            Grid.RowSpan="2"
                             Text="{Binding Name}"/>
                         <Label
                             Grid.Column="1"
@@ -89,67 +151,6 @@
                 </Frame>
             </DataTemplate>
         </CollectionView.ItemTemplate>
-        <CollectionView.Footer>
-            <CollectionView
-                ItemsSource="{Binding Courses}">
-                <CollectionView.Header>
-                    <Label
-                    Text="Harmonogramy"
-                    FontSize="Header"
-                    Margin="40,10,20,0"
-                    FontAttributes="Bold"/>
-                </CollectionView.Header>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Course">
-                        <Frame
-                            CornerRadius="2"
-                            BorderColor="Transparent"
-                            BackgroundColor="#e8e7ed"
-                            Padding="10"
-                            Margin="20,10,20,0">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition
-                                        Width="Auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Image
-                                    Margin="0,0,10,0"
-                                    Aspect="AspectFill"
-                                    Source="emptystar.png"
-                                    HorizontalOptions="Start"
-                                    WidthRequest="10"
-                                    HeightRequest="10"
-                                    Grid.Column="0"
-                                    Grid.Row="0">
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:CoursesPageViewModel}}, Path=AddToFavouriteCommand}"
-                                              CommandParameter="{Binding .}"/>
-                                    </Image.GestureRecognizers>
-                                </Image>
-                                <Label
-                                    Grid.Column="1"
-                                    Grid.Row="0"
-                                    Text="{Binding Name}"/>
-                                <Label
-                                    Grid.Column="1"
-                                    Grid.Row="1"
-                                    Text="{Binding Shorthand}"
-                                    TextColor="#81b7db"
-                                    HorizontalTextAlignment="End"/>
-                            </Grid>
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:CoursesPageViewModel}}, Path=SelectCourseCommand}"
-                                              CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </CollectionView.Footer>
+        
     </CollectionView>
 </ContentPage>

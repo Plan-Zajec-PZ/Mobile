@@ -21,16 +21,16 @@ public static class Settings
         }
     }
 
-    public static List<Course> FavouriteSubjects
+    public static List<int> FavouriteCoursesId
     {
         get
         {
-            var rawData = AppSettings.GetValueOrDefault(nameof(FavouriteSubjects), JsonSerializer.Serialize(new List<Course>()));
-            return JsonSerializer.Deserialize<List<Course>>(rawData);
+            var rawData = AppSettings.GetValueOrDefault(nameof(FavouriteCoursesId), JsonSerializer.Serialize(new List<int>()));
+            return JsonSerializer.Deserialize<List<int>>(rawData);
         }
         set
         {
-            AppSettings.AddOrUpdateValue(nameof(FavouriteSubjects), JsonSerializer.Serialize(value));
+            AppSettings.AddOrUpdateValue(nameof(FavouriteCoursesId), JsonSerializer.Serialize(value));
         }
     }
 }

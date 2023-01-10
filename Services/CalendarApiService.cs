@@ -1,186 +1,82 @@
-﻿using MauiCalendarApp.Interfaces;
+﻿using CommunityToolkit.Maui.Alerts;
+using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
+using MauiCalendarApp.Model.Requests;
+using MauiCalendarApp.Model.Responses;
+using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace MauiCalendarApp.Services;
 public class CalendarApiService : ICalendarApiService
 {
-    public List<Department> GetDepartments()
+    HttpClient _client;
+
+    public CalendarApiService()
     {
-        return new List<Department>
+        _client = new HttpClient
         {
-            new Department(0, "Wydział Nauk o Zdrowiu i Kulturze Fizycznej"),
-            new Department(1, "Wydział Nauk Technicznych i Ekonomicznych"),
-            new Department(2, "Wydział Nauk Społęcznych i Humanistycznych")
+            BaseAddress = new Uri("https://planzajec.up.railway.app/api/")
         };
+        _client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", "Fummt2MTyUYqTQLcl29ChP9eTHz6NG7qy5wV");
     }
 
-    public List<Course> GetSubjects(int departmentId)
+    public List<Department> GetFaculties()
     {
-        return new List<Course>
+        try
         {
-            new(1, 0, "Zdrowie", "Zdr"), new(2, 0, "Kultura", "Kul"), new(3, 0, "Fizyczność", "FiZ"),
-            new(4, 1, "Technika", "Tech"), new(5, 1, "Ekonomia", "EkO"), new(6, 1, "Techonomia", "TEkO"),
-            new(7, 2, "Społeczeństwo", "Spo"), new(8, 2, "Humanizm", "HUM"), new(9, 2, "Filozofia", "Filo")
+            var response = _client.GetAsync("faculties").Result;
+
+            var text = response.Content.ReadAsStringAsync().Result;
+            var responseData = JsonSerializer.Deserialize<ApiResponse<List<Department>>>(text);
+
+            return responseData.Data;
         }
-        .Where(s => s.DepId == departmentId).ToList();
-    }
-
-    public List<Group> GetLessons()
-    {
-        return new List<Group>
+        catch (Exception e)
         {
-            new Group
-            {
-                Name = "Gr1",
-                LessonPlans = new List<DayLesson>
-                {
-                    new DayLesson
-                    {
-                        Date = DateTime.Now,
-                        Lessons = new List<Lesson>
-                        {
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            }
-                        }
-                    },
-                    new DayLesson
-                    {
-                        Date = DateTime.Now.AddDays(1),
-                        Lessons = new List<Lesson>
-                        {
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            }
-                        }
-                    },
-                    new DayLesson
-                    {
-                        Date = DateTime.Now.AddDays(2),
-                        Lessons = new List<Lesson>
-                        {
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            },
-                            new Lesson
-                            {
-                                Subject = "Informatyka",
-                                Teacher = "Matejko",
-                                Classroom = "200A"
-                            }
-                        }
-                    }
-                }
-            }
-        };
+            Console.WriteLine(e.Message);
+            Toast.Make("Connection error").Show();
+            return new List<Department>();
+        }
     }
 
-    public List<Legend> GetLegends()
+    public List<Course> GetCourses(int facultyId)
     {
-        return new List<Legend>
+        try
         {
-            new Legend{ Subject = "Inf", Name = "Informatyka" },
-            new Legend{ Subject = "PzoD", Name = "Przodek kuchenny" }
-        };
+            var response = _client.GetAsync($"faculties/{facultyId}/majors").Result;
+
+            var text = response.Content.ReadAsStringAsync().Result;
+            var responseData = JsonSerializer.Deserialize<ApiResponse<List<Course>>>(text);
+
+            return responseData.Data;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Toast.Make("Connection error").Show();
+            return new List<Course>();
+        }
     }
 
-    public List<string> GetWeeks()
+    public LessonsResponse GetLessons(LessonsRequest lessonsRequest)
     {
-        return new (){
-            "42", "43", "44", "45"
-        };
+        try
+        {
+            var response = _client.GetAsync(
+                $"majors/{lessonsRequest.CourseId}/specializations/{lessonsRequest.SpecializationId}"
+                ).Result;
+
+            var text = response.Content.ReadAsStringAsync().Result;
+            var responseData = JsonSerializer.Deserialize<ApiResponse<LessonsResponse>>(text);
+
+            return responseData.Data;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Toast.Make("Connection error").Show();
+            return new LessonsResponse();
+        }
     }
 }
