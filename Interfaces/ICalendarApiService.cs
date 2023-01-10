@@ -9,4 +9,5 @@ public interface ICalendarApiService
     List<Course> GetCourses(int facultyId);
     LessonsResponse GetLessons(LessonsRequest lessonsRequest);
     List<Lecturer> GetLecturersForFaculty(int facultyId);
+    LecturerLessonsResponse GetLessonsForLecturer(int lecturerId);
 }

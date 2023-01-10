@@ -98,4 +98,23 @@ public class CalendarApiService : ICalendarApiService
             return new List<Lecturer>();
         }
     }
+
+    public LecturerLessonsResponse GetLessonsForLecturer(int lecturerId)
+    {
+        try
+        {
+            var response = _client.GetAsync($"lecturers/{lecturerId}").Result;
+
+            var text = response.Content.ReadAsStringAsync().Result;
+            var responseData = JsonSerializer.Deserialize<ApiResponse<LecturerLessonsResponse>>(text);
+
+            return responseData.Data;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Toast.Make("Connection error").Show();
+            return new LecturerLessonsResponse();
+        }
+    }
 }

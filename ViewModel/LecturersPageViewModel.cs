@@ -3,62 +3,74 @@ using CommunityToolkit.Mvvm.Input;
 using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
 using MauiCalendarApp.Model.Responses;
+using MauiCalendarApp.View;
 using MvvmHelpers;
 
-namespace MauiCalendarApp.ViewModel
+namespace MauiCalendarApp.ViewModel;
+
+[QueryProperty(nameof(Faculties), "Data")]
+public partial class LecturersPageViewModel : BaseViewModel
 {
-    [QueryProperty(nameof(Faculties), "Data")]
-    public partial class LecturersPageViewModel : BaseViewModel
+    private readonly ICalendarApiService calendarApiService;
+
+    public List<Faculty> Faculties { get; set; }
+
+    private List<FacultyRecturers> AllFacultyRecturers = new();
+
+    public ObservableRangeCollection<FacultyRecturers> FilteredFacultyRecturers { get; } = new();
+
+    [ObservableProperty]
+    private string searchPhrase;
+
+    public LecturersPageViewModel(ICalendarApiService calendarApiService)
     {
-        private readonly ICalendarApiService calendarApiService;
+        this.calendarApiService = calendarApiService;
+    }
 
-        public List<Faculty> Faculties { get; set; }
-
-        private List<FacultyRecturers> AllFacultyRecturers = new();
-
-        public ObservableRangeCollection<FacultyRecturers> FilteredFacultyRecturers { get; } = new();
-
-        [ObservableProperty]
-        private string searchPhrase;
-
-        public LecturersPageViewModel(ICalendarApiService calendarApiService)
+    public void LoadLeacturers()
+    {
+        foreach (var faculty in Faculties)
         {
-            this.calendarApiService = calendarApiService;
-        }
-
-        public void LoadLeacturers()
-        {
-            foreach (var faculty in Faculties)
+            AllFacultyRecturers.Add(new FacultyRecturers
             {
-                AllFacultyRecturers.Add(new FacultyRecturers
-                {
-                    Name = faculty.Name,
-                    Lecturers = calendarApiService.GetLecturersForFaculty(faculty.Id)
-                });
-            }
+                Name = faculty.Name,
+                Lecturers = calendarApiService.GetLecturersForFaculty(faculty.Id)
+            });
+        }
+        FilteredFacultyRecturers.Clear();
+        FilteredFacultyRecturers.AddRange(AllFacultyRecturers);
+    }
+
+    [RelayCommand]
+    public void FilterLecturers()
+    {
+        if (string.IsNullOrEmpty(SearchPhrase))
+        {
             FilteredFacultyRecturers.Clear();
             FilteredFacultyRecturers.AddRange(AllFacultyRecturers);
+            return;
         }
 
-        [RelayCommand]
-        public void FilterLecturers()
+        var newFilteredFacultyRecurers = AllFacultyRecturers.Select(r => 
+        new FacultyRecturers
         {
-            if (string.IsNullOrEmpty(SearchPhrase))
-            {
-                FilteredFacultyRecturers.Clear();
-                FilteredFacultyRecturers.AddRange(AllFacultyRecturers);
-                return;
-            }
-
-            var newFilteredFacultyRecurers = AllFacultyRecturers.Select(r => 
-            new FacultyRecturers
-            {
-                Name = r.Name,
-                Lecturers = r.Lecturers.Where(l => l.Name.ToLower().Contains(SearchPhrase.ToLower())).ToList()
-            }
-            ).ToList();
-            FilteredFacultyRecturers.Clear();
-            FilteredFacultyRecturers.AddRange(newFilteredFacultyRecurers);
+            Name = r.Name,
+            Lecturers = r.Lecturers.Where(l => l.Name.ToLower().Contains(SearchPhrase.ToLower())).ToList()
         }
+        ).ToList();
+        FilteredFacultyRecturers.Clear();
+        FilteredFacultyRecturers.AddRange(newFilteredFacultyRecurers);
+    }
+
+    [RelayCommand]
+    public void SelectLecturer(Lecturer lecturer)
+    {
+        Shell.Current.GoToAsync(nameof(LecturerLessonsPage), true, new Dictionary<string, object>
+        {
+            {
+                "Data",
+                lecturer
+            }
+        });
     }
 }
