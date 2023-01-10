@@ -28,7 +28,7 @@
                         Text="{Binding SearchPhrase}"
                         Keyboard="Default">
                         <Entry.Behaviors>
-                            <toolkit:EventToCommandBehavior EventName="Completed" Command="{Binding FilterCoursesCommand}"/>
+                            <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding FilterCoursesCommand}"/>
                         </Entry.Behaviors>
                     </Entry>
                 </Frame>
@@ -151,6 +151,5 @@
                 </Frame>
             </DataTemplate>
         </CollectionView.ItemTemplate>
-        
     </CollectionView>
 </ContentPage>

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
 using MauiCalendarApp.Model.Responses;
+using MvvmHelpers;
 
 namespace MauiCalendarApp.ViewModel
 {
@@ -15,8 +16,7 @@ namespace MauiCalendarApp.ViewModel
 
         private List<FacultyRecturers> AllFacultyRecturers = new();
 
-        [ObservableProperty]
-        private List<FacultyRecturers> filteredFacultyRecturers = new();
+        public ObservableRangeCollection<FacultyRecturers> FilteredFacultyRecturers { get; } = new();
 
         [ObservableProperty]
         private string searchPhrase;
@@ -36,14 +36,29 @@ namespace MauiCalendarApp.ViewModel
                     Lecturers = calendarApiService.GetLecturersForFaculty(faculty.Id)
                 });
             }
-
+            FilteredFacultyRecturers.Clear();
             FilteredFacultyRecturers.AddRange(AllFacultyRecturers);
         }
 
         [RelayCommand]
         public void FilterLecturers()
         {
+            if (string.IsNullOrEmpty(SearchPhrase))
+            {
+                FilteredFacultyRecturers.Clear();
+                FilteredFacultyRecturers.AddRange(AllFacultyRecturers);
+                return;
+            }
 
+            var newFilteredFacultyRecurers = AllFacultyRecturers.Select(r => 
+            new FacultyRecturers
+            {
+                Name = r.Name,
+                Lecturers = r.Lecturers.Where(l => l.Name.ToLower().Contains(SearchPhrase.ToLower())).ToList()
+            }
+            ).ToList();
+            FilteredFacultyRecturers.Clear();
+            FilteredFacultyRecturers.AddRange(newFilteredFacultyRecurers);
         }
     }
 }

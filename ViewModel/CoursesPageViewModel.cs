@@ -54,7 +54,7 @@ public partial class CoursesPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public async Task FilterCourses()
+    public void FilterCourses()
     {
         var filteredResult = AllCourses;
 
@@ -67,7 +67,7 @@ public partial class CoursesPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public async Task AddToFavourite(Course subject)
+    public void AddToFavourite(Course subject)
     {
         Favourite.Add(subject);
         Courses.Remove(subject);
@@ -78,7 +78,7 @@ public partial class CoursesPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public async Task RemoveFromFavourite(Course subject)
+    public void RemoveFromFavourite(Course subject)
     {
         Favourite.Remove(subject);
         Courses.Add(subject);
