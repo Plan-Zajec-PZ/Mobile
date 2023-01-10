@@ -109,9 +109,9 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Frame Grid.ColumnSpan="4" BackgroundColor="{StaticResource WitelonDarkBlue}" CornerRadius="0" BorderColor="Black">
-                        <Label Text="{Binding NameOfTheDay}" HorizontalTextAlignment="Center" TextColor="White"/>
+                        <Label Text="{Binding Day}" HorizontalTextAlignment="Center" TextColor="White"/>
                     </Frame>
-                    <Frame Grid.Row="1" Grid.ColumnSpan="4" BackgroundColor="White" Padding="0" CornerRadius="0">
+                    <Frame Grid.Row="2" Grid.ColumnSpan="4" BackgroundColor="White" Padding="0" CornerRadius="0">
                         <ListView ItemsSource="{Binding Lessons}"  SeparatorVisibility="None" VerticalScrollBarVisibility="Never" SelectionMode="None">
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="models:Lesson">
