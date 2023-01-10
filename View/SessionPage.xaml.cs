@@ -4,9 +4,18 @@ namespace MauiCalendarApp.View;
 
 public partial class SessionPage : ContentPage
 {
-	public SessionPage(SessionPageViewModel viewModel)
+    private readonly SessionPageViewModel viewModel;
+
+    public SessionPage(SessionPageViewModel viewModel)
 	{
 		InitializeComponent();
 		BindingContext = viewModel;
+        this.viewModel = viewModel;
 	}
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        viewModel.LoadLessons();
+    }
 }

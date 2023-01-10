@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using MauiCalendarApp.Interfaces;
 using MauiCalendarApp.Model;
 using MauiCalendarApp.Model.Requests;
+using MauiCalendarApp.Model.Responses;
 using MauiCalendarApp.View;
 using MvvmHelpers;
 
@@ -15,7 +16,7 @@ public partial class LessonsPageViewModel : BaseViewModel
     public LessonsRequest LessonsRequest { get; set; }
 
     [ObservableProperty]
-    private Course course;
+    private string courseName;
     [ObservableProperty]
     private int groupIndex;
     [ObservableProperty]
@@ -28,6 +29,7 @@ public partial class LessonsPageViewModel : BaseViewModel
     [ObservableProperty]
     private List<Legend> legends;
     private List<Group> AllGroups;
+    private LessonsResponse LessonsResponse;
 
     public LessonsPageViewModel(ICalendarApiService calendarApiService)
 	{
@@ -39,18 +41,19 @@ public partial class LessonsPageViewModel : BaseViewModel
     {
         if (AllGroups is null)
         {
-            var response = calendarApiService.GetLessons(LessonsRequest);
-            AllGroups = response.Groups;
+            LessonsResponse = calendarApiService.GetLessons(LessonsRequest);
+            CourseName = LessonsResponse.Name;
+            AllGroups = LessonsResponse.Groups;
 
             Groups = AllGroups.Select(l => l.Name).ToList();
             GroupIndex = 0;
 
-            Weeks = response.Groups[GroupIndex].Weeks;
+            Weeks = LessonsResponse.Groups[GroupIndex].Weeks;
             WeekIndex = 0;
 
             FilterLessons();
 
-            Legends = response.Legends;
+            Legends = LessonsResponse.Legends;
         }
 
         return Task.CompletedTask;
@@ -59,7 +62,13 @@ public partial class LessonsPageViewModel : BaseViewModel
     [RelayCommand]
     public async void GoToSession()
     {
-        await Shell.Current.GoToAsync(nameof(SessionPage));
+        await Shell.Current.GoToAsync(nameof(SessionPage), true, new Dictionary<string, object>
+        {
+            {
+                "Data",
+                LessonsResponse
+            }
+        });
     }
 
     [RelayCommand]
