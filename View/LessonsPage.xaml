@@ -9,7 +9,7 @@
              Title="HARMONOGRAM COLEGIUM WITELONA">
     <CollectionView
         ItemsUpdatingScrollMode="KeepScrollOffset"
-        ItemsSource="{Binding LessonsForGroup}"
+        ItemsSource="{Binding FilteredLessons}"
         VerticalScrollBarVisibility="Never"
         Grid.Row="1"
         Margin="10">
@@ -48,11 +48,15 @@
                     <Picker
                         HorizontalOptions="Center"
                         VerticalOptions="Center"
-                        Title="Aktualny tydzień"
+                        Title="Wybierz tydzień"
                         HorizontalTextAlignment="Center"
                         ItemsSource="{Binding Weeks}"
-                        SelectedItem="{Binding Week}"
-                        SelectedIndexChanged="WeekChanged"/>
+                        SelectedIndex="{Binding WeekIndex}">
+                        <Picker.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="SelectedIndexChanged"
+                                                            Command="{Binding FilterLessonsCommand}"/>
+                        </Picker.Behaviors>
+                    </Picker>
                 </Frame>
                 <Frame
                     BackgroundColor="{StaticResource WitelonGrey}"
@@ -70,7 +74,7 @@
                         SelectedIndex="{Binding GroupIndex}">
                         <Picker.Behaviors>
                             <toolkit:EventToCommandBehavior EventName="SelectedIndexChanged"
-                                                            Command="{Binding ChangeCurrentGroupCommand}"/>
+                                                            Command="{Binding FilterLessonsCommand}"/>
                         </Picker.Behaviors>
                     </Picker>
                 </Frame>
@@ -115,10 +119,10 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Frame BackgroundColor="Transparent" Margin="0" Padding="0" Grid.Column="0" CornerRadius="0" BorderColor="Black">
-                                    <Label Text="{Binding Name}" TextColor="Black" HorizontalOptions="Center"/>
+                                    <Label Text="{Binding Shorthand}" TextColor="Black" HorizontalOptions="Center"/>
                                 </Frame>
                                 <Frame BackgroundColor="Transparent" Margin="0" Padding="0" Grid.Column="1" CornerRadius="0" BorderColor="Black">
-                                    <Label Text="{Binding Shorthand}" LineBreakMode="CharacterWrap" HorizontalOptions="CenterAndExpand"/>
+                                    <Label Text="{Binding Name}" LineBreakMode="CharacterWrap" HorizontalOptions="CenterAndExpand"/>
                                 </Frame>
                             </Grid>
                         </DataTemplate>

@@ -18,10 +18,4 @@ public partial class LessonsPage : ContentPage
         base.OnAppearing();
         viewModel.LoadLessons();
     }
-
-    private void WeekChanged(object sender, EventArgs e)
-    {
-        var picker = (Picker)sender;
-        viewModel.SelectWeek((string)picker.SelectedItem);
-    }
 }

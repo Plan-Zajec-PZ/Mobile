@@ -19,32 +19,37 @@ public partial class LessonsPageViewModel : BaseViewModel
     [ObservableProperty]
     private int groupIndex;
     [ObservableProperty]
-    private string week;
-    public ObservableRangeCollection<Shedule> LessonsForGroup { get; set; }
+    private int weekIndex;
+    public ObservableRangeCollection<Shedule> FilteredLessons { get; set; }
     [ObservableProperty]
     private List<string> groups;
     [ObservableProperty]
     private List<string> weeks = new() { "1", "2"};
     [ObservableProperty]
     private List<Legend> legends;
-    private List<Group> AllLessons;
+    private List<Group> AllGroups;
 
     public LessonsPageViewModel(ICalendarApiService calendarApiService)
 	{
 		this.calendarApiService = calendarApiService;
-        LessonsForGroup = new();
+        FilteredLessons = new();
     }
 
 	public Task LoadLessons()
     {
-        if (AllLessons is null)
+        if (AllGroups is null)
         {
             var response = calendarApiService.GetLessons(LessonsRequest);
-            AllLessons = response.Groups;
-            Groups = AllLessons.Select(l => l.Name).ToList();
+            AllGroups = response.Groups;
+
+            Groups = AllGroups.Select(l => l.Name).ToList();
             GroupIndex = 0;
-            LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Groups[GroupIndex]).ShedulePlan);
-            //Weeks = response;
+
+            Weeks = response.Groups[GroupIndex].Weeks;
+            WeekIndex = 0;
+
+            FilterLessons();
+
             Legends = response.Legends;
         }
 
@@ -58,14 +63,12 @@ public partial class LessonsPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public void ChangeCurrentGroup()
+    public void FilterLessons()
     {
-        LessonsForGroup.Clear();
-        LessonsForGroup.AddRange(AllLessons.FirstOrDefault(g => g.Name == Groups[GroupIndex]).ShedulePlan);
-    }
-
-    public void SelectWeek(string week)
-    {
-        Week = week;
+        FilteredLessons.Clear();
+        FilteredLessons.AddRange(AllGroups
+            .FirstOrDefault(g => g.Name == Groups[GroupIndex]).ShedulePlan
+            .Where(l => l.WeekOfYear == Weeks[weekIndex])
+            );
     }
 }

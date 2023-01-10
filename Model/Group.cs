@@ -8,4 +8,7 @@ public class Group
 
     [JsonPropertyName("schedule")]
     public List<Shedule> ShedulePlan { get; set; }
+
+    public List<string> Weeks =>
+        ShedulePlan.Select(s => s.WeekOfYear).Distinct().ToList();
 }

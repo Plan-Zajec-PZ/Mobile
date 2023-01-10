@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Globalization;
+using System.Text.Json.Serialization;
 
 namespace MauiCalendarApp.Model;
 
@@ -21,5 +22,10 @@ public class Shedule
 
     public string NameOfTheDay => Day.Split(" ")[0];
 
-    public DateTime Date { get; set; }
+    public DateTime Date =>
+        DateTime.Parse(Day.Split(" ")[1]);
+
+    public string WeekOfYear =>
+        CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(Date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)
+        .ToString();
 }
