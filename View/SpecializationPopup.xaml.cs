@@ -1,7 +1,6 @@
 using CommunityToolkit.Maui.Views;
 using MauiCalendarApp.Model;
 using MauiCalendarApp.Model.Requests;
-using static Android.Graphics.ImageDecoder;
 
 namespace MauiCalendarApp.View;
 
