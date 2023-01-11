@@ -2,20 +2,20 @@
 
 namespace MauiCalendarApp.Model;
 
-public class LectureSheduleContent
+public class LecturerSheduleContent
 {
     [JsonPropertyName("date")]
     public string Date { get; set; }
 
-    [JsonPropertyName("dailyShedule")]
-    public List<List<string>> Data { get; set; }
+    [JsonPropertyName("dailySchedule")]
+    public List<DailySchedule> Data { get; set; }
 
     public List<Lesson> Lessons =>
-        Data.Select(rows => new Lesson
+        Data.Select(schedule => new Lesson
         {
-            Subject = rows[0],
-            Time = rows[1],
-            Teacher = rows[2],
-            Classroom = rows[3]
+            Subject = schedule.Subject,
+            Time = schedule.Hours,
+            Teacher = schedule.Class,
+            Classroom = schedule.Classroom
         }).ToList();
 }

@@ -50,8 +50,8 @@ public partial class MainPageViewModel : BaseViewModel
 	public void LoadDepartments()
 	{
 		var departments = calendarApiService.GetFaculties();
-		string departmentName = Settings.LastSelectedDepartmentName;
 
+		string departmentName = Settings.LastSelectedDepartmentName;
 
         if (departmentName != null && departments.Count > 0)
 		{

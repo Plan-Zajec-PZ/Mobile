@@ -8,7 +8,7 @@
              Title="HARMONOGRAM COLEGIUM WITELONA">
     <CollectionView
         ItemsUpdatingScrollMode="KeepScrollOffset"
-        ItemsSource="{Binding Lessons}"
+        ItemsSource="{Binding Shedules}"
         VerticalScrollBarVisibility="Never"
         Grid.Row="1"
         Margin="10">
@@ -19,17 +19,11 @@
                 RowSpacing="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Label
-                    Grid.Row="0"
-                    Grid.ColumnSpan="3"
                     Text="{Binding Lecturer.Name}"
                     FontSize="Large"
                     FontAttributes="Bold"
@@ -75,7 +69,7 @@
             </Frame>
         </CollectionView.Footer>
         <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="models:Shedule">
+            <DataTemplate x:DataType="models:LecturerSheduleContent">
                 <Grid Margin="0" Padding="0" RowSpacing="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -88,7 +82,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Frame Grid.ColumnSpan="4" BackgroundColor="{StaticResource WitelonDarkBlue}" CornerRadius="0" BorderColor="Black">
-                        <Label Text="{Binding Day}" HorizontalTextAlignment="Center" TextColor="White"/>
+                        <Label Text="{Binding Date}" HorizontalTextAlignment="Center" TextColor="White"/>
                     </Frame>
                     <Frame Grid.Row="2" Grid.ColumnSpan="4" BackgroundColor="White" Padding="0" CornerRadius="0">
                         <ListView ItemsSource="{Binding Lessons}"  SeparatorVisibility="None" VerticalScrollBarVisibility="Never" SelectionMode="None">

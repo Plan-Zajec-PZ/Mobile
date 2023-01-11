@@ -5,7 +5,7 @@ namespace MauiCalendarApp.Model;
 public class LecturerShedule
 {
     [JsonPropertyName("content")]
-    public LectureSheduleContent Data { get; set; }
+    public List<LecturerSheduleContent> Data { get; set; }
 
     [JsonPropertyName("legend")]
     public List<Legend> Legends { get; set; }

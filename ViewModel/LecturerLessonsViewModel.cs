@@ -13,7 +13,7 @@ public partial class LecturerLessonsViewModel : BaseViewModel
     [ObservableProperty]
     private Lecturer lecturer;
 
-    public ObservableRangeCollection<Lesson> Lessons { get; set; } = new();
+    public ObservableRangeCollection<LecturerSheduleContent> Shedules { get; set; } = new();
 
     public ObservableRangeCollection<Legend> Legends { get; set; } = new();
 
@@ -26,7 +26,7 @@ public partial class LecturerLessonsViewModel : BaseViewModel
     {
         var response = calendarApiService.GetLessonsForLecturer(Lecturer.Id);
 
-        Lessons.AddRange(response.Schedule.Data.Lessons);
+        Shedules.AddRange(response.Schedule.Data);
         Legends.AddRange(response.Schedule.Legends);
     }
 }
