@@ -6,7 +6,7 @@ using MvvmHelpers;
 namespace MauiCalendarApp.ViewModel;
 
 [QueryProperty(nameof(Lecturer), "Data")]
-public partial class LecturerLessonsViewModel : BaseViewModel
+public partial class LecturerLessonsPageViewModel : BaseViewModel
 {
     private readonly ICalendarApiService calendarApiService;
 
@@ -17,7 +17,7 @@ public partial class LecturerLessonsViewModel : BaseViewModel
 
     public ObservableRangeCollection<Legend> Legends { get; set; } = new();
 
-    public LecturerLessonsViewModel(ICalendarApiService calendarApiService)
+    public LecturerLessonsPageViewModel(ICalendarApiService calendarApiService)
     {
         this.calendarApiService = calendarApiService;
     }

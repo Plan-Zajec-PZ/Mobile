@@ -4,9 +4,9 @@ namespace MauiCalendarApp.View;
 
 public partial class LecturerLessonsPage : ContentPage
 {
-	private readonly LecturerLessonsViewModel viewModel;
+	private readonly LecturerLessonsPageViewModel viewModel;
 
-	public LecturerLessonsPage(LecturerLessonsViewModel viewModel)
+	public LecturerLessonsPage(LecturerLessonsPageViewModel viewModel)
 	{
 		InitializeComponent();
 		BindingContext = viewModel;

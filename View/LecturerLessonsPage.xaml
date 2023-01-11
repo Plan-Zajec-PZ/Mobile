@@ -4,7 +4,7 @@
              xmlns:viewmodel="clr-namespace:MauiCalendarApp.ViewModel"
              xmlns:models="clr-namespace:MauiCalendarApp.Model"
              x:Class="MauiCalendarApp.View.LecturerLessonsPage"
-             x:DataType="viewmodel:LecturerLessonsViewModel"
+             x:DataType="viewmodel:LecturerLessonsPageViewModel"
              Title="HARMONOGRAM COLEGIUM WITELONA">
     <CollectionView
         ItemsUpdatingScrollMode="KeepScrollOffset"
