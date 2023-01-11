@@ -21,14 +21,14 @@ public class CalendarApiService : ICalendarApiService
             new AuthenticationHeaderValue("Bearer", "Fummt2MTyUYqTQLcl29ChP9eTHz6NG7qy5wV");
     }
 
-    public List<Department> GetFaculties()
+    public List<Faculty> GetFaculties()
     {
         try
         {
             var response = _client.GetAsync("faculties").Result;
 
             var text = response.Content.ReadAsStringAsync().Result;
-            var responseData = JsonSerializer.Deserialize<ApiResponse<List<Department>>>(text);
+            var responseData = JsonSerializer.Deserialize<ApiResponse<List<Faculty>>>(text);
 
             return responseData.Data;
         }
@@ -36,7 +36,7 @@ public class CalendarApiService : ICalendarApiService
         {
             Console.WriteLine(e.Message);
             Toast.Make("Connection error").Show();
-            return new List<Department>();
+            return new List<Faculty>();
         }
     }
 
@@ -77,6 +77,44 @@ public class CalendarApiService : ICalendarApiService
             Console.WriteLine(e.Message);
             Toast.Make("Connection error").Show();
             return new LessonsResponse();
+        }
+    }
+
+    public List<Lecturer> GetLecturersForFaculty(int facultyId)
+    {
+        try
+        {
+            var response = _client.GetAsync($"lecturers?faculty={facultyId}").Result;
+
+            var text = response.Content.ReadAsStringAsync().Result;
+            var responseData = JsonSerializer.Deserialize<ApiResponse<List<Lecturer>>>(text);
+
+            return responseData.Data;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Toast.Make("Connection error").Show();
+            return new List<Lecturer>();
+        }
+    }
+
+    public LecturerLessonsResponse GetLessonsForLecturer(int lecturerId)
+    {
+        try
+        {
+            var response = _client.GetAsync($"lecturers/{lecturerId}").Result;
+
+            var text = response.Content.ReadAsStringAsync().Result;
+            var responseData = JsonSerializer.Deserialize<ApiResponse<LecturerLessonsResponse>>(text);
+
+            return responseData.Data;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Toast.Make("Connection error").Show();
+            return new LecturerLessonsResponse();
         }
     }
 }

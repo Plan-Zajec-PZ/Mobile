@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:MauiCalendarApp.ViewModel"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:responses="clr-namespace:MauiCalendarApp.Model.Responses"
+             xmlns:models="clr-namespace:MauiCalendarApp.Model"
+             x:Class="MauiCalendarApp.View.LecturersPage"
+             x:DataType="viewmodel:LecturersPageViewModel">
+    <CollectionView
+        ItemsSource="{Binding FilteredFacultyRecturers}">
+        <CollectionView.Header>
+            <Frame
+            CornerRadius="2"
+            Margin="20,0,30,0"
+            Padding="10,0,0,0">
+                <Entry
+                Placeholder="Wyszukaj..."
+                FontSize="Body"
+                Text="{Binding SearchPhrase}"
+                Keyboard="Default">
+                    <Entry.Behaviors>
+                        <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding FilterLecturersCommand}"/>
+                    </Entry.Behaviors>
+                </Entry>
+            </Frame>
+        </CollectionView.Header>
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="responses:FacultyRecturers">
+                <Frame
+                    Padding="0"
+                    HorizontalOptions="Center">
+                    <CollectionView
+                        ItemsSource="{Binding Lecturers}">
+                        <CollectionView.Header>
+                            <Label
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Name}"
+                            BackgroundColor="{StaticResource WitelonDarkBlue}"
+                            TextColor="White"
+                            Padding="0,10,0,10"/>
+                        </CollectionView.Header>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Lecturer">
+                                <Frame
+                                CornerRadius="0">
+                                    <Label
+                                        Padding="0,10,0,10"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Name}"/>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:LecturersPageViewModel}}, Path=SelectLecturerCommand}"
+                                              CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>
