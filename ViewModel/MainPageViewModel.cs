@@ -38,6 +38,9 @@ public partial class MainPageViewModel : BaseViewModel
     [RelayCommand]
     public void FindLecturer()
 	{
+		if (Faculties.Count == 0)
+			return;
+
 		Shell.Current.GoToAsync(nameof(LecturersPage),true, new Dictionary<string, object>
 		{
 			{
