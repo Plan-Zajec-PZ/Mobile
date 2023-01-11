@@ -5,11 +5,16 @@
                x:Class="MauiCalendarApp.View.SpecializationPopup">
 
     <VerticalStackLayout>
-        <Label Text="Wybierz specjalizację" FontSize="Header"/>
+        <Label
+            Margin="5"
+            Text="Wybierz specjalizację"
+            FontSize="Large"/>
         <Button
+            Margin="5"
             x:Name="button1"
             Clicked="Button1_Clicked" />
         <Button
+            Margin="5"
             x:Name="button2"
             Clicked="Button2_Clicked" />
     </VerticalStackLayout>

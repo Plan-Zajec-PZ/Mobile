@@ -1,5 +1,4 @@
-﻿using MauiCalendarApp.Model;
-using Plugin.Settings;
+﻿using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using System.Text.Json;
 

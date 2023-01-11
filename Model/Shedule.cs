@@ -26,6 +26,21 @@ public class Shedule
         DateTime.Parse(Day.Split(" ")[1]);
 
     public string WeekOfYear =>
-        CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(Date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)
-        .ToString();
+        $"({FirstDayOfWeek().ToShortDateString()} - {LastDayOfWeek().ToShortDateString()}) Tydzień {CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(Date, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday)}";
+
+    private DateTime FirstDayOfWeek()
+    {
+        var date = new DateTime(Date.Ticks);
+        while (true)
+        {
+            date = date.AddDays(-1);
+
+            if (CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(Date, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday) != CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday))
+                return date.AddDays(1);
+        }
+    }
+    private DateTime LastDayOfWeek()
+    {
+        return FirstDayOfWeek().AddDays(6);
+    }
 }
